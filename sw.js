@@ -1,5 +1,5 @@
 const CACHE_PREFIX='riyoshi-glossary-';
-const CACHE=CACHE_PREFIX+'v3-0-0-term-reading';
+const CACHE=CACHE_PREFIX+'v3-0-0-swipe';
 const ASSETS=['./','./index.html','./style.css','./manifest.webmanifest','./glossaryData.js','./glossaryQuizData.js','./glossaryApp.js'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));
