@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>理容師国家試験 用語アプリ Version 3.0.0</title>
+<link rel="stylesheet" href="style.css">
+<style>
+:root{--navy:#073d86;--blue:#3477d4;--line:#cbd7e8;--pale:#f5f9fe;--text:#202938;--muted:#647084;--green:#35ba39;--yellow:#ffc400;--red:#ed3434;--gray:#b9c2cf}*{box-sizing:border-box}body{margin:0;background:linear-gradient(110deg,#fff 0%,#f6faff 58%,#eef6ff 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;font-weight:400}.g-nav{position:sticky;top:0;z-index:30;display:grid;grid-template-columns:54px 1fr 54px;align-items:center;height:54px;padding:0 8px;background:var(--navy);color:#fff}.g-nav a{display:grid;place-items:center;height:44px;color:#fff;text-decoration:none;font-size:30px}.g-nav span{text-align:center;font-size:19px}.page{max-width:820px;margin:auto;padding:18px 14px 104px}.page-title{margin:6px 0 20px;text-align:center;color:#0b3978;font-size:25px;font-weight:400}.summary-card{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center;padding:18px;border:1px solid var(--line);border-radius:14px;background:#fff}.ring{display:grid;place-items:center;width:88px;height:88px;border-radius:50%;background:conic-gradient(var(--blue) var(--progress),#e7ebf2 0);position:relative}.ring:before{content:'';position:absolute;inset:10px;border-radius:50%;background:#fff}.ring span{position:relative;font-size:21px}.summary-label{font-size:15px}.summary-main{margin:5px 0 8px;font-size:25px}.summary-sub{border-top:1px solid var(--line);padding-top:8px;font-size:13px;color:var(--muted)}.status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:13px 0 9px}.status-box{padding:12px 4px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:center;font-size:13px}.status-dot{display:block;width:18px;height:18px;margin:0 auto 7px;border-radius:50%}.status-box em{display:block;margin-top:3px;font-style:normal;font-size:17px}.status-box.safe .status-dot{background:var(--green)}.status-box.caution .status-dot{background:var(--yellow)}.status-box.danger .status-dot{background:var(--red)}.status-box.unlearned .status-dot{background:var(--gray)}.progress-line{height:7px;margin:12px 4px 22px;border-radius:9px;background:#e7ebf2;overflow:hidden}.progress-line i{display:block;height:100%;background:var(--blue)}.view-head{display:grid;grid-template-columns:42px 1fr 42px;align-items:center;margin-bottom:12px}.view-head button{height:40px;border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit}.view-head h1{margin:0;text-align:center;font-size:19px;font-weight:400}.study-progress{height:7px;margin-bottom:15px;border-radius:6px;background:#e4eaf2;overflow:hidden}.study-progress i{display:block;height:100%;background:var(--blue)}.study-count{text-align:center;color:var(--muted);font-size:13px}.study-card,.term-card,.result-card{margin-top:12px;border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}.term-front{display:grid;place-items:center;min-height:230px;padding:24px;text-align:center}.term-front h2{margin:8px 0;font-size:27px;font-weight:400}.term-category{color:var(--muted);font-size:13px}.next-button{display:block;width:calc(100% - 28px);min-height:50px;margin:0 14px 14px;border:0;border-radius:10px;background:var(--navy);color:#fff;font:inherit;font-size:16px}.term-back{border-top:1px solid var(--line);padding:15px}.term-field{margin-bottom:13px;padding-bottom:13px;border-bottom:1px solid #e7ecf3}.term-label{margin-bottom:5px;color:var(--muted);font-size:12px}.term-value{line-height:1.72}.term-value ul{margin:0;padding-left:1.3em}.exam-points{margin-left:-5px;margin-right:-5px;padding:10px 7px;border:0;border-radius:8px;background:#fff8df}.source-details summary{padding:7px 0;color:var(--muted);font-size:12px;cursor:pointer}.source-content{padding:8px 0;font-size:13px;line-height:1.7}.source-content a{color:var(--navy)}.review-pill{display:inline-block;margin-top:6px;padding:3px 8px;border-radius:999px;background:#fff0cc;color:#765500;font-size:12px}.quiz{margin-top:14px;padding:14px;border-top:1px solid var(--line);background:#f8fbff}.quiz h3{margin:0 0 11px;font-size:16px;font-weight:400;line-height:1.6}.quiz-choice{display:flex;width:100%;min-height:46px;margin:7px 0;padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff;text-align:left;font:inherit;line-height:1.5}.quiz-choice.correct{border-color:var(--green);background:#effbef}.quiz-choice.wrong{border-color:var(--red);background:#fff1f1}.quiz-result{margin-top:10px;padding:10px;border-radius:9px;background:#fff;line-height:1.6}.assessment{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:14px;border-top:1px solid var(--line)}.assessment button{min-height:48px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit;font-size:13px}.assessment button.selected{box-shadow:0 0 0 2px var(--navy)}.next-review{padding:0 14px 12px;text-align:center;color:var(--muted);font-size:12px}.term-card summary{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:center;min-height:56px;padding:0 13px;cursor:pointer;list-style:none}.term-card summary::-webkit-details-marker{display:none}.term-card[open] .arrow{transform:rotate(90deg)}.term-card .next-button{display:block;width:calc(100% - 28px);min-height:50px;margin:0 14px 14px;border:0;border-radius:10px;background:var(--navy);color:#fff;font:inherit;font-size:16px}.term-back{border-top:1px solid var(--line)}.assessment-inline{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}.assessment-inline button{min-height:42px;border:1px solid var(--line);border-radius:8px;background:#fff}.empty{padding:40px 10px;text-align:center;color:var(--muted)}.result-card{padding:20px;text-align:center}.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:16px 0}.result-grid div{padding:10px;border:1px solid var(--line);border-radius:9px}.due-label{color:#b32424;font-size:11px}@media(max-width:440px){.page{padding-left:11px;padding-right:11px}.page-title{font-size:23px}.summary-card{grid-template-columns:82px 1fr;padding:14px}.ring{width:76px;height:76px}.status-grid{gap:5px}.status-box{font-size:12px}.status-box em{font-size:15px}}
+</style>
+<style>
+.session-navigation{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px 14px}
+.session-navigation button{min-height:50px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text);font:inherit;font-size:16px}
+.session-navigation .session-next{border-color:var(--navy);background:var(--navy);color:#fff}
+.status-box{color:var(--text);font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.status-box:active{transform:scale(.98);filter:brightness(.98)}
+.status-box:focus-visible{outline:3px solid rgba(52,119,212,.35);outline-offset:2px}
+.status-message{position:fixed;z-index:60;left:50%;bottom:24px;transform:translateX(-50%);display:flex;align-items:center;gap:14px;width:min(520px,calc(100% - 28px));padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:0 12px 30px rgba(16,35,63,.18);font-size:14px}
+.status-message span{flex:1}.status-message button{width:36px;height:36px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--text);font:inherit;font-size:20px}
+</style>
+<style>
+.status-bookmark{display:block;height:18px;margin:0 auto 7px;font-size:18px;line-height:18px}
+@media(max-width:440px){.summary-main{font-size:19px;line-height:1.4}.status-bookmark{font-size:17px}}
+</style>
+<style>
+.g-nav .g-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:18px}
+.floating-nav{position:fixed;left:calc(14px + env(safe-area-inset-left));bottom:calc(82px + env(safe-area-inset-bottom));z-index:9999;display:grid;gap:8px}
+.floating-nav .floating-home,.floating-nav .floating-back{position:static;display:flex;align-items:center;justify-content:center;gap:5px;width:68px;height:44px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.96);box-shadow:0 4px 14px rgba(16,35,63,.14);color:var(--navy);text-decoration:none;font:inherit;font-size:24px;line-height:1;cursor:pointer}
+.floating-nav .home-label{font-size:11px;line-height:1}
+.floating-nav .floating-home:focus-visible,.floating-nav .floating-back:focus-visible{outline:3px solid rgba(52,119,212,.35);outline-offset:2px}
+.floating-nav [hidden]{display:none!important}@media(max-width:440px){.g-nav .g-title{font-size:16px}.floating-nav{left:calc(10px + env(safe-area-inset-left));bottom:calc(78px + env(safe-area-inset-bottom))}.floating-nav .floating-home,.floating-nav .floating-back{width:44px}.floating-nav .home-label{display:none}}
+</style>
+<style>
+.flash-study-card{overflow:visible}
+.flash-card{display:block;width:calc(100% - 28px);min-height:300px;margin:14px;padding:24px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--text);font:inherit;text-align:left;cursor:pointer}
+.flash-front{display:grid;place-items:center;min-height:250px;text-align:center}
+.flash-front h2{margin:0;font-size:29px;font-weight:400}
+.flash-back{min-height:250px}
+.flash-back .term-category{text-align:center;margin-bottom:14px}
+.flash-actions{padding:0 14px 7px}
+.flash-actions button{width:100%;min-height:44px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit}
+@media(max-width:440px){.flash-card{min-height:270px;padding:18px}.flash-front{min-height:220px}.flash-front h2{font-size:25px}}
+</style>
+
+<style>
+.home-feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0}
+.home-feature-card{display:grid;grid-template-columns:76px minmax(0,1fr) 24px;gap:14px;align-items:center;min-height:154px;padding:20px;border:0;border-radius:25px;color:#fff;text-align:left;font:inherit;cursor:pointer;box-shadow:0 6px 16px rgba(16,35,63,.12)}
+.feature-flash{background:linear-gradient(135deg,#3fa9f5 0%,#246de1 100%)}
+.feature-weak{background:linear-gradient(135deg,#ffb43f 0%,#ff781f 100%)}
+.home-feature-icon{display:grid;place-items:center;width:76px;height:76px;border-radius:22px;background:rgba(255,255,255,.20);font-size:43px;line-height:1}
+.home-feature-copy{min-width:0}.home-feature-copy strong{display:block;font-size:25px;font-weight:400;white-space:nowrap}.home-feature-copy small{display:block;margin-top:10px;font-size:14px;line-height:1.4;color:#fff}
+.home-feature-arrow{justify-self:end;font-size:42px;font-weight:300;line-height:1}
+.home-bookmark-card{display:grid;grid-template-columns:44px minmax(0,1fr) 24px;gap:12px;align-items:center;width:100%;min-height:76px;margin:0 0 18px;padding:14px 18px;border:1px solid var(--line);border-radius:16px;background:#fff;color:var(--text);text-align:left;font:inherit;cursor:pointer}.home-bookmark-card>span:first-child{font-size:28px}.home-bookmark-card strong{display:block;font-size:18px;font-weight:400}.home-bookmark-card small{display:block;margin-top:3px;color:var(--muted);font-size:13px}.home-bookmark-card .home-feature-arrow{color:var(--blue);font-size:32px}
+.flash-card{height:clamp(360px,62vh,560px);min-height:0;overflow:hidden}.flash-front,.flash-back{height:100%;min-height:0}.flash-back{overflow-y:auto;overscroll-behavior:contain;padding-right:5px}.flash-front{align-content:center}
+@media(max-width:620px){.home-feature-grid{gap:10px}.home-feature-card{grid-template-columns:58px minmax(0,1fr) 18px;gap:10px;min-height:128px;padding:14px;border-radius:20px}.home-feature-icon{width:58px;height:58px;border-radius:17px;font-size:34px}.home-feature-copy strong{font-size:20px}.home-feature-copy small{font-size:12px}.home-feature-arrow{font-size:34px}}
+@media(max-width:440px){.home-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.home-feature-card{grid-template-columns:1fr 15px;grid-template-rows:auto auto;min-height:150px;padding:12px}.home-feature-icon{grid-column:1;width:50px;height:50px;font-size:30px}.home-feature-copy{grid-column:1/-1}.home-feature-copy strong{font-size:18px;white-space:normal}.home-feature-copy small{margin-top:5px;font-size:11px}.home-feature-arrow{grid-column:2;grid-row:1;align-self:center;font-size:30px}.flash-card{height:clamp(340px,58vh,500px);padding:18px}}
+</style>
+</head>
+<body>
+<nav class="g-nav"><span aria-hidden="true"></span><span class="g-title">理容師国家試験 用語アプリ</span><span aria-hidden="true"></span></nav>
+<main class="page" id="app"></main>
+<div class="floating-nav"><button id="glossaryBack" class="floating-back" type="button" onclick="Glossary.back()" aria-label="戻る">‹</button><button class="floating-home" type="button" onclick="Glossary.home()" aria-label="ホームへ戻る">⌂</button></div>
+<script src="glossaryData.js"></script>
+<script src="glossaryQuizData.js"></script>
+<script src="glossaryApp.js"></script>
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
+</body>
+</html>
