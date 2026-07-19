@@ -2,7 +2,50 @@
 'use strict';
 const data=globalThis.GLOSSARY_DATA,quizData=globalThis.GLOSSARY_QUIZ_DATA,app=document.getElementById('app');
 if(!data||!quizData||!app)return;
-const APP_VERSION='3.0.16',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',REVIEW_DATE='2026-07-17';
+// Version 3.0.22: 表記や文章量だけで正答を推測できる設問を補正する。
+{
+const q=quizData.questions;
+const set=(id,question,correct,distractors)=>Object.assign(q[id],{question,correct,distractors});
+set(119,'薬剤耐性菌としての特徴はどれか。','メチシリンに耐性を示す黄色ブドウ球菌。',['バンコマイシンに耐性を示す腸球菌。','バンコマイシンに耐性を示す黄色ブドウ球菌。','メチシリンに感受性を示す黄色ブドウ球菌。']);
+set(120,'国際保健における主な役割はどれか。','各国の保健活動を調整し、国際的な公衆衛生を推進する。',['地域住民の健康相談を行い、市町村の保健活動を支える。','衛生に関する試験検査を行い、地域の行政判断を支える。','消費生活の相談を受け、事業者とのトラブル解決を支援する。']);
+set(121,'この概念が重視する内容はどれか。','身体状態だけでなく、生活の満足度や社会生活も含めて捉える。',['食事や移動など、日常生活動作の自立度だけを捉える。','病気なく生活できる期間を、平均寿命との差から捉える。','身長と体重の関係から、体格の程度だけを数値で捉える。']);
+set(122,'体格を判定する計算方法はどれか。','体重kgを身長mの2乗で除して求める。',['身長cmから一定値を差し引いて求める。','体重kgを身長cmで除して100を乗じる。','胸囲cmを身長cmで除して100を乗じる。']);
+set(123,'主な予防対象となる感染症はどれか。','結核',['麻しん','ジフテリア','インフルエンザ']);
+set(124,'遺伝情報に関する主な役割はどれか。','遺伝情報を長期的に保存し、複製して受け渡す。',['遺伝情報を写し取り、タンパク質合成へ伝える。','細胞膜の主成分となり、物質の出入りを調節する。','化学反応を促進し、細胞内の代謝を調節する。']);
+set(125,'遺伝情報に関する主な役割はどれか。','遺伝情報を写し取り、タンパク質合成へ伝える。',['遺伝情報を長期的に保存し、複製して受け渡す。','細胞膜の主成分となり、物質の出入りを調節する。','化学反応を促進し、細胞内の代謝を調節する。']);
+set(126,'感染との関連が深い病態はどれか。','尖圭コンジローマや子宮頸がん。',['B型肝炎や肝硬変。','C型肝炎や肝細胞がん。','後天性免疫不全症候群。']);
+set(127,'使用する場面として最も適切なものはどれか。','血液や体液の飛散・接触から従事者を守る場面。',['流水と石けんで手指の汚れを除去する場面。','器具を消毒薬へ浸し、微生物を減らす場面。','作業区域を清掃し、環境表面を整える場面。']);
+set(129,'健康管理上、特に注意する負担はどれか。','画面注視による眼の疲れや、同一姿勢による筋骨格系の負担。',['長時間の立位による下肢の疲れや、静脈系への負担。','重量物の反復運搬による腰部や上肢への負担。','薬剤の吸入や皮膚接触による呼吸器・皮膚への負担。']);
+set(132,'乳幼児で起こしやすい主な病態はどれか。','細気管支炎などの呼吸器感染症。',['感染性胃腸炎などの消化器感染症。','流行性角結膜炎などの眼感染症。','手足口病などの発疹性疾患。']);
+set(134,'人体への作用として正しいものはどれか。','過度の曝露により紅斑や皮膚障害を起こす。',['熱作用により皮膚温を上昇させる。','網膜を刺激して明暗や色として知覚される。','透過性を利用して骨などの画像検査に用いられる。']);
+set(186,'人と動物の間で成立する感染症の説明はどれか。','人と動物の双方に感染する病原体によって起こる。',['動物だけに感染する病原体によって起こる。','人だけに感染する病原体によって起こる。','昆虫だけを宿主とする病原体によって起こる。']);
+set(190,'感染の有無にかかわらず行う基本対策はどれか。','すべての血液・体液などを感染性があるものとして扱う。',['感染症と診断された人の血液だけを感染性として扱う。','目に見える汚れがある器具だけを感染性として扱う。','症状がある従事者の分泌物だけを感染性として扱う。']);
+set(207,'空気中での性質として正しいものはどれか。','飛沫の水分が蒸発した微小粒子で、長く浮遊しやすい。',['水分を多く含む大きな粒子で、短距離で落下しやすい。','皮膚表面に付着する粒子で、空気中には浮遊しない。','飲食物中で増殖する粒子で、吸入による感染は起こさない。']);
+set(283,'器具の処理方法を選ぶ基準はどれか。','接触する部位の感染リスクに応じて処理水準を選ぶ。',['器具の購入価格に応じて処理水準を選ぶ。','器具の使用回数に応じて処理水準を選ぶ。','器具の保管期間に応じて処理水準を選ぶ。']);
+set(297,'健康について示された基本的な考え方はどれか。','身体的・精神的・社会的に良好な状態を健康と捉える。',['疾病や病弱が認められない状態だけを健康と捉える。','身体機能が正常に保たれた状態だけを健康と捉える。','医療サービスを受けられる状態だけを健康と捉える。']);
+set(334,'値が100を超える場合の解釈として正しいものはどれか。','基準集団より死亡が多いことを示す。',['基準集団より死亡が少ないことを示す。','基準集団と死亡の程度が同じことを示す。','対象集団の平均寿命が100歳を超えることを示す。']);
+set(461,'原因となる微生物はどれか。','カンジダ属の真菌。',['白癬菌などの真菌。','黄色ブドウ球菌などの細菌。','単純ヘルペスウイルスなどのウイルス。']);
+set(501,'毛髪に生じる状態として正しいものはどれか。','毛髪の先端や毛幹が縦に裂けた状態。',['毛髪の途中に結び目ができた状態。','毛髪が横方向に折れて切れた状態。','毛髪表面に皮脂が多く付着した状態。']);
+set(532,'表示の内容として正しいものはどれか。','配合した成分名を容器や外箱などに表示する。',['製造工程の作業時間を容器や外箱などに表示する。','使用者の健康状態を容器や外箱などに表示する。','販売店の在庫数量を容器や外箱などに表示する。']);
+set(543,'香粧品に配合する主な目的はどれか。','保湿、溶剤、湿潤性の調整に用いる。',['油分を補い、皮膚表面を閉塞して保護する。','酸化反応を起こし、毛髪中の色素を分解する。','界面張力を下げ、洗浄や乳化を助ける。']);
+set(544,'香粧品に配合する主な目的はどれか。','保湿、溶剤、使用感の調整に用いる。',['油分を補い、皮膚表面を閉塞して保護する。','酸化反応を起こし、毛髪中の色素を分解する。','界面張力を下げ、洗浄や乳化を助ける。']);
+const surf={556:['陰イオンとなり、洗浄・起泡に用いられる。','陽イオンとなり、柔軟・帯電防止に用いられる。','イオン化せず、乳化・可溶化に用いられる。','液性により電荷が変わり、低刺激洗浄に用いられる。'],557:['陽イオンとなり、柔軟・帯電防止に用いられる。','陰イオンとなり、洗浄・起泡に用いられる。','イオン化せず、乳化・可溶化に用いられる。','液性により電荷が変わり、低刺激洗浄に用いられる。'],558:['イオン化せず、乳化・可溶化に用いられる。','陰イオンとなり、洗浄・起泡に用いられる。','陽イオンとなり、柔軟・帯電防止に用いられる。','液性により電荷が変わり、低刺激洗浄に用いられる。'],559:['液性により電荷が変わり、低刺激洗浄に用いられる。','陰イオンとなり、洗浄・起泡に用いられる。','陽イオンとなり、柔軟・帯電防止に用いられる。','イオン化せず、乳化・可溶化に用いられる。']};
+Object.entries(surf).forEach(([id,a])=>set(id,'水中での性質と主な用途の組合せはどれか。',a[0],a.slice(1)));
+set(565,'実施する目的として正しいものはどれか。','薬剤を少量つけ、皮膚反応の有無を事前に確認する。',['薬剤を全量つけ、染まり上がりの色調を事前に確認する。','薬剤を毛髪につけ、ウェーブの形成状態を事前に確認する。','薬剤を器具につけ、材質の変化の有無を事前に確認する。']);
+set(577,'パーマ第1剤での主な働きはどれか。','シスチン結合を切断し、毛髪を変形しやすくする。',['切断した結合を再形成し、毛髪の形を固定する。','毛髪表面を被膜で覆い、摩擦や乾燥を抑える。','染料中間体を発色させ、毛髪内部を染色する。']);
+set(578,'パーマ第2剤での主な働きはどれか。','切断した結合を再形成し、毛髪の形を固定する。',['シスチン結合を切断し、毛髪を変形しやすくする。','毛髪表面を被膜で覆い、摩擦や乾燥を抑える。','界面張力を下げ、薬剤を均一に分散させる。']);
+set(627,'この技術の説明として正しいものはどれか。','染毛剤などを用いて、毛髪の色を変化させる技術。',['酸化剤で毛髪中の色素を分解し、明るくする技術。','還元と酸化を利用し、毛髪に持続性のウェーブをつける技術。','熱とブラシ操作を利用し、毛髪を一時的に整える技術。']);
+set(628,'この技術の説明として正しいものはどれか。','酸化剤で毛髪中の色素を分解し、明るくする技術。',['染毛剤などを用いて、毛髪へ色素を補う技術。','還元と酸化を利用し、毛髪に持続性のウェーブをつける技術。','熱とブラシ操作を利用し、毛髪を一時的に整える技術。']);
+set(680,'適した滅菌対象と条件の組合せはどれか。','熱や湿気に弱い器材を、低温のガスで処理する。',['耐熱性の器材を、高温高圧の飽和蒸気で処理する。','ガラス器材などを、乾燥した高温空気で処理する。','耐熱性の器材を、煮沸水中で一定時間処理する。']);
+set(693,'毛髪を染める性質として正しいものはどれか。','陽性の電荷をもち、毛髪表面付近へ吸着して染める。',['酸性の水溶液中で、毛髪の表層部へ吸着して染める。','酸化反応で発色し、毛髪内部へ浸透して染める。','毛髪中の色素を酸化分解し、色を明るくする。']);
+set(694,'毛髪を染める性質として正しいものはどれか。','低分子の染料が、毛髪の表層部へ浸透して染める。',['陽性の電荷をもつ染料が、毛髪表面へ吸着して染める。','酸化反応で発色する染料が、毛髪内部へ浸透して染める。','毛髪中の色素を酸化分解し、色を明るくする。']);
+const balanceIds=[117,143,192,205,210,218,232,236,242,243,293,300,313,314,323,345,346,348,368,391,429,479,576,600,635,637,643,656];
+const chars=text=>new Set(String(text).replace(/[\s、。・（）()]/g,''));
+const similarity=(a,b)=>{const aa=chars(a),bb=chars(b);let n=0;for(const c of aa)if(bb.has(c))n++;return n/Math.max(1,new Set([...aa,...bb]).size)};
+for(const id of balanceIds){const item=q[id],term=data.terms.find(x=>Number(x.id)===id);if(!item||!term)continue;const pool=data.terms.filter(x=>x.category===term.category&&Number(x.id)!==id&&q[x.id]?.correct).map(x=>q[x.id].correct).filter((v,i,a)=>v!==item.correct&&a.indexOf(v)===i);item.distractors=pool.map(v=>({v,score:Math.abs(v.length-item.correct.length)/Math.max(8,item.correct.length)-similarity(item.correct,v)*.65})).sort((a,b)=>a.score-b.score).slice(0,3).map(x=>x.v)}
+quizData.version='3.0.22';
+}
+const APP_VERSION='3.0.22',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',REVIEW_DATE='2026-07-17';
 const states={safe:'安全',caution:'注意',danger:'危険',unable:'無理'};
 const intervals={unable:[0],danger:[0,1,3],caution:[1,3,7],safe:[7,14]};
 let learning=loadLearning(),saveTimer=0,screen='home',listTerms=[],session=[],sessionIndex=0,revealed=false,hintVisible=false,flashStage=0,assessedCurrent=false,sessionStats=null,todayQuizMode=false,isTodaySession=false,statusSessionMode=false,todayAnswers=new Map(),sessionId='',evaluatedIds=new Set(),flashcardMode=false,flashSwipeLocked=false,flashSuppressClickUntil=0;
@@ -97,10 +140,10 @@ renderSession=function(){renderSessionBase();if(flashcardMode){document.querySel
 function ensureFlashPair(){if(sessionIndex+1<session.length)return;const last=session.at(-1)?.id,nextDeck=shuffle([...data.terms]);if(nextDeck.length>1&&nextDeck[0].id===last)[nextDeck[0],nextDeck[1]]=[nextDeck[1],nextDeck[0]];session.push(...nextDeck)}
 function flashNextPair(){if(!flashcardMode||flashSwipeLocked)return;flashSwipeLocked=true;ensureFlashPair();sessionIndex+=2;ensureFlashPair();prepareTerm();renderSession();scrollTo(0,0);setTimeout(()=>{flashSwipeLocked=false},180)}
 function flashPreviousPair(){if(!flashcardMode||flashSwipeLocked||sessionIndex===0)return;flashSwipeLocked=true;sessionIndex=Math.max(0,sessionIndex-2);prepareTerm();renderSession();scrollTo(0,0);setTimeout(()=>{flashSwipeLocked=false},180)}
-function whiteboardHtml(term){const marked=isBookmarked(term),fields=flashcardFields(term).replace('試験の要点','要点');return `<article class="whiteboard"><div class="whiteboard-scroll"><section class="whiteboard-front"><div class="whiteboard-category">${esc(term.category)}</div><h2>${esc(term.name)}</h2>${term.reading?`<div class="whiteboard-reading">${esc(term.reading)}</div>`:''}</section><section class="whiteboard-fields">${fields}</section></div><button type="button" class="whiteboard-bookmark${marked?' is-bookmarked':''}" onclick="Glossary.toggleBookmark(${term.id})" aria-label="${marked?'ブックマークを解除':'ブックマークに追加'}">🔖</button><span class="board-eraser" aria-hidden="true"><i></i></span></article>`}
+function whiteboardHtml(term,position){const marked=isBookmarked(term),fields=flashcardFields(term).replace('試験の要点','要点');return `<article class="whiteboard"><div class="whiteboard-scroll"><section class="whiteboard-front"><div class="whiteboard-category">${esc(term.category)}</div><h2>${esc(term.name)}</h2>${term.reading?`<div class="whiteboard-reading">${esc(term.reading)}</div>`:''}</section><section class="whiteboard-fields">${fields}</section></div><button type="button" class="whiteboard-bookmark${marked?' is-bookmarked':''}" onclick="Glossary.toggleBookmark(${term.id})" aria-label="${marked?'ブックマークを解除':'ブックマークに追加'}">🔖</button><span class="board-eraser" aria-hidden="true"><i></i></span><span class="whiteboard-position">${position} / ${data.terms.length}</span></article>`}
 function bindWhiteboardGestures(){const stack=document.querySelector('.whiteboard-stack');if(!stack)return;let x=0,y=0;stack.addEventListener('touchstart',event=>{const touch=event.touches[0];if(touch){x=touch.clientX;y=touch.clientY}},{passive:true});stack.addEventListener('touchend',event=>{const touch=event.changedTouches[0];if(!touch)return;const dx=touch.clientX-x,dy=touch.clientY-y;if(Math.abs(dx)<55||Math.abs(dx)<=Math.abs(dy)*1.25)return;if(dx<0)flashNextPair();else flashPreviousPair()},{passive:true})}
 const renderSessionMemoryCard=renderSession;
-renderSession=function(){renderSessionMemoryCard();if(!flashcardMode)return;ensureFlashPair();const host=document.querySelector('.flash-study-card'),first=session[sessionIndex],second=session[sessionIndex+1];if(!host||!first||!second)return;const start=sessionIndex%data.terms.length+1,end=(sessionIndex+1)%data.terms.length+1;host.className='whiteboard-study';host.innerHTML=`<div class="whiteboard-stack">${whiteboardHtml(first)}${whiteboardHtml(second)}</div><div class="whiteboard-navigation"><button type="button" onclick="Glossary.flashPreviousPair()" ${sessionIndex===0?'disabled':''}>＜ 前へ</button><span>${start}–${end} / ${data.terms.length}</span><button type="button" onclick="Glossary.flashNextPair()">次へ ＞</button></div>`;bindWhiteboardGestures()};
+renderSession=function(){renderSessionMemoryCard();if(!flashcardMode)return;ensureFlashPair();const host=document.querySelector('.flash-study-card'),first=session[sessionIndex],second=session[sessionIndex+1];if(!host||!first||!second)return;const start=sessionIndex%data.terms.length+1,end=(sessionIndex+1)%data.terms.length+1;host.className='whiteboard-study';host.innerHTML=`<div class="whiteboard-stack">${whiteboardHtml(first,start)}${whiteboardHtml(second,end)}</div><div class="whiteboard-navigation"><button type="button" onclick="Glossary.flashPreviousPair()" ${sessionIndex===0?'disabled':''}>＜前へ</button><button type="button" onclick="Glossary.flashNextPair()">次へ＞</button></div>`;bindWhiteboardGestures()};
 function todayResponse(term=currentTerm()){if(todayAnswers.has(term.id))return todayAnswers.get(term.id);const question=quizData.questions?.[term.id],distractors=question?shuffle([...question.distractors]).slice(0,2):[],options=question?shuffle([{text:question.correct,correct:true},...distractors.map(text=>({text,correct:false}))]):[],response={question:question?.question||'',source:question?.source||'',options,hold:!question,attempts:[],completed:false,autoStatus:'',currentStatus:'',counted:false,originalResult:'',finalResult:'',unable:false,unableTiming:'',recorded:false};todayAnswers.set(term.id,response);persistTodaySession();return response}
 function performanceHtml(term,response){const perf=performanceFor(term),s=termState(term),symbols={first_correct:'○',second_correct:'△',wrong:'×',unable:'🔖'},label={safe:'安全候補',caution:'注意',danger:'危険',none:'データなし'}[perf.level],final={safe:'安全相当',caution:'注意相当',danger:'危険相当',unable:'無理',unlearned:'未学習'}[finalPriority(term)],notice=response.unable?'自力回答不能として記録されています':s?.status==='safe'&&['caution','danger'].includes(perf.level)?'実績では要注意':['caution','danger'].includes(s?.status)&&perf.level==='safe'?'実績は改善傾向です':'';return `<details class="performance-details"><summary>正答実績</summary><div>自己評価：${states[s?.status]||'未設定'}<br>実力評価：${label}<br>直近5回：${perf.rows.map(x=>symbols[resultType(x)]||'').join(' ')||'記録なし'}<br>1回目正解率：${perf.rate===null?'未算出':perf.rate+'％'}<br>復習優先度：${final}<br>次回復習日：${s?.nextReviewDate?formatDate(s.nextReviewDate):'未設定'}${notice?`<br><span class="performance-notice">${notice}</span>`:''}</div></details>`}
 function todayQuizHtml(term){const response=todayResponse(term),wrong=new Set(response.attempts.filter(index=>!response.options[index].correct));return `<section class="quiz today-quiz"><h3>${esc(response.question)}</h3>${response.options.map((option,index)=>`<button class="quiz-choice ${wrong.has(index)?'wrong ':''}${response.completed&&option.correct?'correct ':''}" onclick="Glossary.chooseToday(${index})" ${(response.completed||wrong.has(index))?'disabled':''}>${index+1}．${esc(option.text)}</button>`).join('')}<button class="unable-button" aria-label="自力で回答できない" onclick="Glossary.markUnable()" ${response.unable?'disabled':''}>🔖 無理</button>${response.attempts.length===1&&!response.completed?'<div class="quiz-result retry">不正解です。残りの選択肢から、もう一度選んでください。</div>':''}${response.completed?`<div class="quiz-result">${response.unable?'自力で回答できなかったものとして記録しました。':response.autoStatus==='safe'?'1回目で正解です。':response.autoStatus==='caution'?'2回目で正解です。':'正解を確認してください。'}</div><div class="term-back">${termFields(term)}${sourceBlock(term)}</div>${todayAssessmentArea(term,response)}${performanceHtml(term,response)}`:''}</section>${sessionNavigation()}`}
@@ -114,7 +157,7 @@ function todayAssessmentArea(term,response){const s=termState(term);return `<div
 function overrideToday(status){const term=currentTerm(),response=todayResponse(term);if(!response.completed||!states[status])return;if(response.currentStatus!==status){sessionStats[response.currentStatus]=Math.max(0,sessionStats[response.currentStatus]-1);sessionStats[status]++;response.currentStatus=status;setStatus(term,status,false,'手動自己評価を優先');saveRecentAnswer(term,response);persistTodaySession()}renderSession()}
 
 
-function sessionNavigation(){return `<div class="session-navigation"><button onclick="Glossary.previousTerm()">前の用語</button><button class="session-next" onclick="Glossary.nextTerm()">${sessionIndex===session.length-1?'結果を見る':'次へ'}</button></div>`}
+function sessionNavigation(){return `<div class="session-navigation"><button onclick="Glossary.previousTerm()">＜前へ</button><button class="session-next" onclick="Glossary.nextTerm()">${sessionIndex===session.length-1?'結果を見る＞':'次へ＞'}</button></div>`}
 
 
 
