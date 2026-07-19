@@ -2,7 +2,7 @@
 'use strict';
 const data=globalThis.GLOSSARY_DATA,quizData=globalThis.GLOSSARY_QUIZ_DATA,app=document.getElementById('app');
 if(!data||!quizData||!app)return;
-// Version 3.0.27: 3択216問の再監査修正と問題番号表示。
+// Version 3.0.30: 反転問題の空白領域を通常問題と同じ配置の回答案内へ変更。
 {
 const q=quizData.questions;
 const set=(id,question,correct,distractors)=>Object.assign(q[id],{question,correct,distractors});
@@ -70,10 +70,30 @@ for(const id of lengthRiskIds){
 set(395,'消費者基本法で消費者の権利として位置づけられる組合せはどれか。','安全の確保・選択の機会・必要な情報・教育・意見反映・被害救済。',['契約の自由・納税・勤労・財産形成・営業許可・価格決定。','衛生管理・資格取得・行政届出・広告審査・料金設定・店舗登録。','診療給付・介護給付・年金給付・雇用保障・住宅扶助・生活扶助。']);
 set(531,'化粧品基準が定める事項はどれか。','配合禁止成分と配合制限成分などを定める。',['全成分表示の記載順序と文字サイズだけを定める。','製造販売業許可の申請手続と審査期間を定める。','広告に表示できる効能効果と料金表示を定める。']);
 set(123,'主な予防対象となる感染症はどれか。','結核',['麻しん','風しん','破傷風']);
-data.version='3.0.27';
-quizData.version='3.0.27';
+const genericDefinitionPattern=/(?:について正しい説明はどれか|の説明として正しいものはどれか)/;
+const sameCategoryNames=(term)=>data.terms
+ .filter(candidate=>candidate.category===term.category&&candidate.id!==term.id)
+ .map(candidate=>candidate.name)
+ .filter((name,index,names)=>name&&name!==term.name&&names.indexOf(name)===index)
+ .map(name=>({name,score:Math.abs(name.length-term.name.length)}))
+ .sort((a,b)=>a.score-b.score||a.name.localeCompare(b.name,'ja'))
+ .slice(0,3)
+ .map(row=>row.name);
+for(const term of data.terms){
+ const item=q[term.id];
+ if(!item||!genericDefinitionPattern.test(item.question))continue;
+ let description=String(item.correct||'').trim();
+ description=description.replaceAll(term.name,'この用語').replace(/。+$/,'');
+ const distractors=sameCategoryNames(term);
+ if(distractors.length!==3)continue;
+ Object.assign(item,{question:`${description}。この説明に該当する用語はどれか。`,correct:term.name,distractors,reverseLookup:true});
 }
-const APP_VERSION='3.0.27',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',REVIEW_DATE='2026-07-17';
+set(123,'BCGワクチンの主な予防対象はどれか。','結核',['麻しん','風しん','破傷風']);
+set(580,'パーマ第1剤の作用として正しいものはどれか。','毛髪内のシスチン結合を還元して切断する。',['切断したシスチン結合を酸化して再結合させる。','毛髪表面を被膜で覆って水分蒸発を抑える。','酸化染料を発色させて毛髪内部を染色する。']);
+data.version='3.0.30';
+quizData.version='3.0.30';
+}
+const APP_VERSION='3.0.30',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',REVIEW_DATE='2026-07-17';
 const states={safe:'安全',caution:'注意',danger:'危険',unable:'無理'};
 const intervals={unable:[0],danger:[0,1,3],caution:[1,3,7],safe:[7,14]};
 let learning=loadLearning(),saveTimer=0,screen='home',listTerms=[],session=[],sessionIndex=0,revealed=false,hintVisible=false,flashStage=0,assessedCurrent=false,sessionStats=null,todayQuizMode=false,isTodaySession=false,statusSessionMode=false,todayAnswers=new Map(),sessionId='',evaluatedIds=new Set(),flashcardMode=false,flashSwipeLocked=false,flashSuppressClickUntil=0;
@@ -174,7 +194,7 @@ const renderSessionMemoryCard=renderSession;
 renderSession=function(){renderSessionMemoryCard();if(!flashcardMode)return;ensureFlashPair();const host=document.querySelector('.flash-study-card'),first=session[sessionIndex],second=session[sessionIndex+1];if(!host||!first||!second)return;const start=sessionIndex%data.terms.length+1,end=(sessionIndex+1)%data.terms.length+1;host.className='whiteboard-study';host.innerHTML=`<div class="whiteboard-stack">${whiteboardHtml(first,start)}${whiteboardHtml(second,end)}</div><div class="whiteboard-navigation"><button type="button" onclick="Glossary.flashPreviousPair()" ${sessionIndex===0?'disabled':''}>＜前へ</button><button type="button" onclick="Glossary.flashNextPair()">次へ＞</button></div>`;bindWhiteboardGestures()};
 function todayResponse(term=currentTerm()){if(todayAnswers.has(term.id))return todayAnswers.get(term.id);const question=quizData.questions?.[term.id],distractors=question?shuffle([...question.distractors]).slice(0,2):[],options=question?shuffle([{text:question.correct,correct:true},...distractors.map(text=>({text,correct:false}))]):[],response={question:question?.question||'',source:question?.source||'',options,hold:!question,attempts:[],completed:false,autoStatus:'',currentStatus:'',counted:false,originalResult:'',finalResult:'',unable:false,unableTiming:'',recorded:false};todayAnswers.set(term.id,response);persistTodaySession();return response}
 function performanceHtml(term,response){const perf=performanceFor(term),s=termState(term),symbols={first_correct:'○',second_correct:'△',wrong:'×',unable:'🔖'},label={safe:'安全候補',caution:'注意',danger:'危険',none:'データなし'}[perf.level],final={safe:'安全相当',caution:'注意相当',danger:'危険相当',unable:'無理',unlearned:'未学習'}[finalPriority(term)],notice=response.unable?'自力回答不能として記録されています':s?.status==='safe'&&['caution','danger'].includes(perf.level)?'実績では要注意':['caution','danger'].includes(s?.status)&&perf.level==='safe'?'実績は改善傾向です':'';return `<details class="performance-details"><summary>正答実績</summary><div>自己評価：${states[s?.status]||'未設定'}<br>実力評価：${label}<br>直近5回：${perf.rows.map(x=>symbols[resultType(x)]||'').join(' ')||'記録なし'}<br>1回目正解率：${perf.rate===null?'未算出':perf.rate+'％'}<br>復習優先度：${final}<br>次回復習日：${s?.nextReviewDate?formatDate(s.nextReviewDate):'未設定'}${notice?`<br><span class="performance-notice">${notice}</span>`:''}</div></details>`}
-function todayQuizHtml(term){const response=todayResponse(term),wrong=new Set(response.attempts.filter(index=>!response.options[index].correct));return `<section class="quiz today-quiz"><h3>${esc(response.question)}</h3>${response.options.map((option,index)=>`<button class="quiz-choice ${wrong.has(index)?'wrong ':''}${response.completed&&option.correct?'correct ':''}" onclick="Glossary.chooseToday(${index})" ${(response.completed||wrong.has(index))?'disabled':''}>${index+1}．${esc(option.text)}</button>`).join('')}<button class="unable-button" aria-label="自力で回答できない" onclick="Glossary.markUnable()" ${response.unable?'disabled':''}>🔖 無理</button>${response.attempts.length===1&&!response.completed?'<div class="quiz-result retry">不正解です。残りの選択肢から、もう一度選んでください。</div>':''}${response.completed?`<div class="quiz-result">${response.unable?'自力で回答できなかったものとして記録しました。':response.autoStatus==='safe'?'1回目で正解です。':response.autoStatus==='caution'?'2回目で正解です。':'正解を確認してください。'}</div><div class="term-back">${termFields(term)}${sourceBlock(term)}</div>${todayAssessmentArea(term,response)}${performanceHtml(term,response)}`:''}</section>${sessionNavigation()}`}
+function todayQuizHtml(term){const response=todayResponse(term),wrong=new Set(response.attempts.filter(index=>!response.options[index].correct)),hideGivenTerm=quizData.questions?.[term.id]?.reverseLookup&&!response.completed;return `${hideGivenTerm?'<style>.today-study-card>.term-front h2{font-size:0}.today-study-card>.term-front h2::after{content:"用語を選んでください";font-size:27px}.today-study-card>.term-front .today-term-reading{display:none}.today-study-card>.term-front>div::after{content:"説明を読んで、3択から選択";display:block;margin-top:7px;color:#66738a;font-size:13px;line-height:1.4}</style>':''}<section class="quiz today-quiz"><h3>${esc(response.question)}</h3>${response.options.map((option,index)=>`<button class="quiz-choice ${wrong.has(index)?'wrong ':''}${response.completed&&option.correct?'correct ':''}" onclick="Glossary.chooseToday(${index})" ${(response.completed||wrong.has(index))?'disabled':''}>${index+1}．${esc(option.text)}</button>`).join('')}<button class="unable-button" aria-label="自力で回答できない" onclick="Glossary.markUnable()" ${response.unable?'disabled':''}>🔖 無理</button>${response.completed?`<div class="term-back">${termFields(term)}${sourceBlock(term)}</div>${todayAssessmentArea(term,response)}${performanceHtml(term,response)}`:''}</section>${sessionNavigation()}`}
 function finalResultFor(response){if(response.unable)return'unable';const last=response.attempts.at(-1),correct=response.options[last]?.correct;if(correct)return response.attempts.length===1?'first_correct':'second_correct';return response.attempts.length>=2?'wrong':''}
 function saveRecentAnswer(term,response){const key=stateKey(term),s=termState(term)||{},result=finalResultFor(response);if(!result)return;const rows=[...(s.recentAnswers||[])],existing=rows.findIndex(x=>x.sessionId===sessionId&&x.termId===term.id),row={id:`${sessionId}-${term.id}`,sessionId,termId:term.id,answeredAt:dateTime(),mode:sessionStats.label,firstChoice:response.attempts[0]??null,secondChoice:response.attempts[1]??null,originalResult:response.originalResult||result,finalResult:result,unable:response.unable,unableTiming:response.unableTiming||'',automaticStatus:response.autoStatus,manualStatus:response.currentStatus||response.autoStatus,reason:response.unable?'利用者が自力回答不能を申告':''};if(existing>=0)rows[existing]={...rows[existing],...row};else rows.push(row);learning[key]={...s,recentAnswers:rows.slice(-5)};saveLearning();response.recorded=true}
 function applyQuizOutcome(term,response){const previous=response.finalResult||'',next=finalResultFor(response);if(!next||previous===next)return;if(previous){if(previous==='first_correct')sessionStats.firstCorrect--;else if(previous==='second_correct')sessionStats.secondCorrect--;else if(previous==='wrong')sessionStats.wrong--;else if(previous==='unable')sessionStats.unable--;adjustQuizTotals(term,previous,-1)}if(next==='first_correct')sessionStats.firstCorrect++;else if(next==='second_correct')sessionStats.secondCorrect++;else if(next==='wrong')sessionStats.wrong++;else sessionStats.unable++;adjustQuizTotals(term,next,1);response.finalResult=next;saveRecentAnswer(term,response);persistTodaySession()}

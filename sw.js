@@ -1,5 +1,5 @@
 const CACHE_PREFIX='riyoshi-glossary-';
-const CACHE=CACHE_PREFIX+'v3.0.27-quiz-reaudit-fixes-20260719';
+const CACHE=CACHE_PREFIX+'v3.0.30-reverse-quiz-guide-20260719';
 const ASSETS=['./','./index.html','./style.css','./manifest.webmanifest','./glossaryData.js','./glossaryQuizData.js','./glossaryApp.js','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./favicon-32.png'];
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
