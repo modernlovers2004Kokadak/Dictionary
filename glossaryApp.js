@@ -2,7 +2,7 @@
 'use strict';
 const data=globalThis.GLOSSARY_DATA,quizData=globalThis.GLOSSARY_QUIZ_DATA,app=document.getElementById('app');
 if(!data||!quizData||!app)return;
-// Version 3.0.30: 反転問題の空白領域を通常問題と同じ配置の回答案内へ変更。
+// Version 3.0.32: 今日の10語の問題カードを青色の四方罫と角丸で統一。
 {
 const q=quizData.questions;
 const set=(id,question,correct,distractors)=>Object.assign(q[id],{question,correct,distractors});
@@ -90,10 +90,10 @@ for(const term of data.terms){
 }
 set(123,'BCGワクチンの主な予防対象はどれか。','結核',['麻しん','風しん','破傷風']);
 set(580,'パーマ第1剤の作用として正しいものはどれか。','毛髪内のシスチン結合を還元して切断する。',['切断したシスチン結合を酸化して再結合させる。','毛髪表面を被膜で覆って水分蒸発を抑える。','酸化染料を発色させて毛髪内部を染色する。']);
-data.version='3.0.30';
-quizData.version='3.0.30';
+data.version='3.0.32';
+quizData.version='3.0.32';
 }
-const APP_VERSION='3.0.30',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',REVIEW_DATE='2026-07-17';
+const APP_VERSION='3.0.32',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',REVIEW_DATE='2026-07-17';
 const states={safe:'安全',caution:'注意',danger:'危険',unable:'無理'};
 const intervals={unable:[0],danger:[0,1,3],caution:[1,3,7],safe:[7,14]};
 let learning=loadLearning(),saveTimer=0,screen='home',listTerms=[],session=[],sessionIndex=0,revealed=false,hintVisible=false,flashStage=0,assessedCurrent=false,sessionStats=null,todayQuizMode=false,isTodaySession=false,statusSessionMode=false,todayAnswers=new Map(),sessionId='',evaluatedIds=new Set(),flashcardMode=false,flashSwipeLocked=false,flashSuppressClickUntil=0;
