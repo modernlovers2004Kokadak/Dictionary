@@ -1,5 +1,5 @@
 const CACHE_PREFIX='riyoshi-glossary-';
-const CACHE=CACHE_PREFIX+'v3.0.32-rounded-quiz-frame-20260720';
+const CACHE=CACHE_PREFIX+'v3.0.33-square-barber-spacing-20260720';
 const ASSETS=['./','./index.html','./style.css','./manifest.webmanifest','./glossaryData.js','./glossaryQuizData.js','./glossaryApp.js','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./favicon-32.png'];
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
