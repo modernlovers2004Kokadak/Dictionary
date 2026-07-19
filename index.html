@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>理容師国家試験 用語集 Version 3.0.25</title>
+<title>理容師国家試験 用語集 Version 3.0.26</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -196,6 +196,21 @@
 <script src="glossaryData.js"></script>
 <script src="glossaryQuizData.js"></script>
 <script src="glossaryApp.js"></script>
-<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
+<script>
+if('serviceWorker' in navigator){
+ let controlled=Boolean(navigator.serviceWorker.controller),reloading=false;
+ navigator.serviceWorker.addEventListener('controllerchange',()=>{
+  if(controlled&&!reloading){reloading=true;location.reload();return}
+  controlled=true;
+ });
+ addEventListener('load',async()=>{
+  try{
+   const registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});
+   registration.update().catch(()=>{});
+   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')registration.update().catch(()=>{})});
+  }catch(_){}
+ });
+}
+</script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 'use strict';
 const data=globalThis.GLOSSARY_DATA,quizData=globalThis.GLOSSARY_QUIZ_DATA,app=document.getElementById('app');
 if(!data||!quizData||!app)return;
-// Version 3.0.25: 3択設問の補正、読み仮名統一、ヘッダーナビゲーション。
+// Version 3.0.26: 3択設問の補正、読み仮名統一、PWA自動更新。
 {
 const q=quizData.questions;
 const set=(id,question,correct,distractors)=>Object.assign(q[id],{question,correct,distractors});
@@ -51,10 +51,10 @@ for(const term of data.terms){
  const question=q[term.id];
  if(ruby&&question?.question.includes(ruby))question.question=question.question.replaceAll(ruby,'');
 }
-data.version='3.0.25';
-quizData.version='3.0.25';
+data.version='3.0.26';
+quizData.version='3.0.26';
 }
-const APP_VERSION='3.0.25',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',REVIEW_DATE='2026-07-17';
+const APP_VERSION='3.0.26',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',REVIEW_DATE='2026-07-17';
 const states={safe:'安全',caution:'注意',danger:'危険',unable:'無理'};
 const intervals={unable:[0],danger:[0,1,3],caution:[1,3,7],safe:[7,14]};
 let learning=loadLearning(),saveTimer=0,screen='home',listTerms=[],session=[],sessionIndex=0,revealed=false,hintVisible=false,flashStage=0,assessedCurrent=false,sessionStats=null,todayQuizMode=false,isTodaySession=false,statusSessionMode=false,todayAnswers=new Map(),sessionId='',evaluatedIds=new Set(),flashcardMode=false,flashSwipeLocked=false,flashSuppressClickUntil=0;

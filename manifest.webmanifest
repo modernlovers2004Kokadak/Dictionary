@@ -1,11 +1,13 @@
 {
   "name": "理容師国家試験 用語集",
   "short_name": "用語集",
+  "id": "./",
+  "scope": "./",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f5f7fb",
   "theme_color": "#0f3f7a",
-  "version": "3.0.25",
+  "version": "3.0.26",
   "icons": [
     {
       "src": "apple-touch-icon.png",
