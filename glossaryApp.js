@@ -2,7 +2,7 @@
 'use strict';
 const data=globalThis.GLOSSARY_DATA,quizData=globalThis.GLOSSARY_QUIZ_DATA,app=document.getElementById('app');
 if(!data||!quizData||!app)return;
-// Version 3.0.24: 3択設問の補正と読み仮名表示の統一。
+// Version 3.0.25: 3択設問の補正、読み仮名統一、ヘッダーナビゲーション。
 {
 const q=quizData.questions;
 const set=(id,question,correct,distractors)=>Object.assign(q[id],{question,correct,distractors});
@@ -51,10 +51,10 @@ for(const term of data.terms){
  const question=q[term.id];
  if(ruby&&question?.question.includes(ruby))question.question=question.question.replaceAll(ruby,'');
 }
-data.version='3.0.24';
-quizData.version='3.0.24';
+data.version='3.0.25';
+quizData.version='3.0.25';
 }
-const APP_VERSION='3.0.24',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',REVIEW_DATE='2026-07-17';
+const APP_VERSION='3.0.25',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',REVIEW_DATE='2026-07-17';
 const states={safe:'安全',caution:'注意',danger:'危険',unable:'無理'};
 const intervals={unable:[0],danger:[0,1,3],caution:[1,3,7],safe:[7,14]};
 let learning=loadLearning(),saveTimer=0,screen='home',listTerms=[],session=[],sessionIndex=0,revealed=false,hintVisible=false,flashStage=0,assessedCurrent=false,sessionStats=null,todayQuizMode=false,isTodaySession=false,statusSessionMode=false,todayAnswers=new Map(),sessionId='',evaluatedIds=new Set(),flashcardMode=false,flashSwipeLocked=false,flashSuppressClickUntil=0;
@@ -104,7 +104,7 @@ function diversifyToday(ordered,limit=Infinity){const result=[],left=[...ordered
 function todayTerms(){const meta=todayMeta(),previous=new Set(meta.lastSession.ids),previousResults=meta.lastSession.results,raw=[...new Map(data.terms.map(term=>[term.id,term])).values()].filter(dailyEligible).sort(dailySort),all=[];for(let level=0;level<=8;level++)all.push(...categoryRoundRobin(raw.filter(term=>priority(term)===level)));const picked=[];const add=term=>{if(picked.length<10&&!picked.some(row=>row.id===term.id))picked.push(term)};for(const term of all){if(priority(term)>6)continue;if(previous.has(term.id)&&!['wrong','unable'].includes(previousResults[term.id])&&priority(term)>3)continue;add(term)}for(const term of all){if(picked.length===10)break;if(priority(term)<=7&&!previous.has(term.id))add(term)}for(const release of ['', 'second_correct','first_correct']){if(picked.length===10)break;for(const term of all){if(picked.length===10)break;if((previousResults[term.id]||'')!==release)continue;if(termState(term)?.nextReviewDate>today())continue;add(term)}}return diversifyToday(picked)}
 function shuffle(items){for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]]}return items}
 
-function syncFloatingNav(){const back=document.getElementById('glossaryBack');if(back)back.hidden=screen==='home'}
+function syncFloatingNav(){const hidden=screen==='home',back=document.getElementById('glossaryBack'),home=document.getElementById('glossaryHome');if(back)back.hidden=hidden;if(home)home.hidden=hidden}
 
 function quizHomeStats(){let learned=0,first=0,second=0,wrong=0,unable=0,correct=0,totalAnswers=0;for(const term of data.terms){const s=termState(term),rows=s?.recentAnswers||[],latest=rows.at(-1),type=resultType(latest);if(type){learned++;if(type==='first_correct')first++;else if(type==='second_correct')second++;else if(type==='wrong')wrong++;else if(type==='unable')unable++}correct+=Number(s?.quizCorrect)||0;totalAnswers+=(Number(s?.quizCorrect)||0)+(Number(s?.quizWrong)||0)}return{total:data.terms.length,learned,unlearned:data.terms.length-learned,first,second,wrong,unable,rate:totalAnswers?Math.round(correct/totalAnswers*100):0,answered:totalAnswers>0}}
 function quizProgressSummary(){const s=quizHomeStats(),pct=s.total?Math.round(s.learned/s.total*100):0;return `<section class="summary-card quiz-progress-card"><div class="ring" style="--progress:${pct}%"><span>${pct}%</span></div><div><div class="summary-label">学習進捗</div><div class="summary-main">${s.learned} / ${s.total}語</div><div class="summary-sub">学習済み ${s.learned}語　未学習 ${s.unlearned}語<br>確認問題正答率 ${s.answered?s.rate+'％':'未解答'}</div></div><div class="progress-line quiz-progress-line"><i style="width:${pct}%"></i></div></section>`}

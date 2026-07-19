@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>理容師国家試験 用語集 Version 3.0.24</title>
+<title>理容師国家試験 用語集 Version 3.0.25</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -28,11 +28,8 @@
 </style>
 <style>
 .g-nav .g-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:18px}
-.floating-nav{position:fixed;left:calc(14px + env(safe-area-inset-left));bottom:calc(82px + env(safe-area-inset-bottom));z-index:9999;display:grid;gap:8px}
-.floating-nav .floating-home,.floating-nav .floating-back{position:static;display:flex;align-items:center;justify-content:center;gap:5px;width:68px;height:44px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.96);box-shadow:0 4px 14px rgba(16,35,63,.14);color:var(--navy);text-decoration:none;font:inherit;font-size:24px;line-height:1;cursor:pointer}
-.floating-nav .home-label{font-size:11px;line-height:1}
-.floating-nav .floating-home:focus-visible,.floating-nav .floating-back:focus-visible{outline:3px solid rgba(52,119,212,.35);outline-offset:2px}
-.floating-nav [hidden]{display:none!important}@media(max-width:440px){.g-nav .g-title{font-size:16px}.floating-nav{left:calc(10px + env(safe-area-inset-left));bottom:calc(78px + env(safe-area-inset-bottom))}.floating-nav .floating-home,.floating-nav .floating-back{width:44px}.floating-nav .home-label{display:none}}
+.g-nav .header-nav-button{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;background:transparent;color:#fff;font:inherit;font-size:27px;line-height:1;cursor:pointer}
+.g-nav .header-nav-button:focus-visible{outline:3px solid rgba(255,255,255,.55);outline-offset:-3px}.g-nav .header-nav-button[hidden]{visibility:hidden;display:grid!important}@media(max-width:440px){.g-nav .g-title{font-size:16px}}
 </style>
 <style>
 .flash-study-card{overflow:visible}
@@ -194,9 +191,8 @@
 </style>
 </head>
 <body>
-<nav class="g-nav"><span aria-hidden="true"></span><span class="g-title">理容師国家試験 用語集</span><span aria-hidden="true"></span></nav>
+<nav class="g-nav"><button id="glossaryBack" class="header-nav-button" type="button" onclick="Glossary.back()" aria-label="戻る" hidden>‹</button><span class="g-title">理容師国家試験 用語集</span><button id="glossaryHome" class="header-nav-button" type="button" onclick="Glossary.home()" aria-label="ホームへ戻る" hidden>⌂</button></nav>
 <main class="page" id="app"></main>
-<div class="floating-nav"><button id="glossaryBack" class="floating-back" type="button" onclick="Glossary.back()" aria-label="戻る">‹</button><button class="floating-home" type="button" onclick="Glossary.home()" aria-label="ホームへ戻る">⌂</button></div>
 <script src="glossaryData.js"></script>
 <script src="glossaryQuizData.js"></script>
 <script src="glossaryApp.js"></script>
