@@ -7,7 +7,7 @@
   "display": "standalone",
   "background_color": "#f5f7fb",
   "theme_color": "#0f3f7a",
-  "version": "3.0.40",
+  "version": "3.0.41",
   "icons": [
     {
       "src": "apple-touch-icon.png",
