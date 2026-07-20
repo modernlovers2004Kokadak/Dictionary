@@ -17,6 +17,7 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.6}
+.g-nav{position:sticky;top:0;z-index:30;display:grid;grid-template-columns:54px 1fr 54px;align-items:center;height:54px;padding:0 8px;background:#073d86;color:#fff}.g-nav button,.g-nav a{display:grid;place-items:center;width:100%;height:44px;padding:0;border:0;background:transparent;color:#fff;text-decoration:none;font:inherit;font-size:30px;line-height:1;cursor:pointer}.g-nav .g-title{text-align:center;font-size:19px;font-weight:400;line-height:1.25}
 .page-wrap{max-width:640px;margin:0 auto;padding:20px 14px 60px}
 
 .infection-guide-title{font-size:25px;font-weight:400;margin:0 0 12px;color:var(--navy);line-height:1.45}
@@ -51,9 +52,12 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
 .tier-3 .tier-diseases li{background:#fff4e8;border-color:#f7dbb4}
 .tier-4 .tier-diseases li{background:#eaf7f3;border-color:#c7e8dd}
 .tier-5 .tier-diseases li{background:#eef1f5;border-color:#d9dfe6}
+.infection-guide{font-size:17px}.infection-guide .infection-guide-title,.infection-guide .tier-name,.infection-guide .tier-count,.infection-guide .tier-rule,.infection-guide .tier-mnemonic,.infection-guide .tier-group-title,.infection-guide .tier-diseases li{font-size:inherit}.infection-guide .infection-guide-title,.infection-guide .tier-name{font-weight:400}
+@media(max-width:440px){.infection-guide{font-size:16px}.g-nav .g-title{font-size:18px}}
 </style>
 </head>
 <body>
+<nav class="g-nav"><button type="button" onclick="history.length>1?history.back():location.href='index.html'" aria-label="戻る">‹</button><span class="g-title">理容師国家試験 用語集</span><a href="index.html" aria-label="ホームへ戻る">⌂</a></nav>
 <div class="page-wrap">
 
 <section class="infection-guide">
