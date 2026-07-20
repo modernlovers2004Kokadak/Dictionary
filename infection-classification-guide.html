@@ -39,6 +39,13 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
 .tier-3 .tier-dot{background:var(--orange)}
 .tier-4 .tier-dot{background:#3fb59a}
 .tier-5 .tier-dot{background:#b7c0cc}
+.tier-1 summary{background:var(--red)}
+.tier-2 summary{background:#f0836a}
+.tier-3 summary{background:var(--orange)}
+.tier-4 summary{background:#3fb59a}
+.tier-5 summary{background:#b7c0cc}
+.infection-tier summary,.infection-tier summary::after,.infection-tier summary .tier-count{color:#fff}
+.infection-tier summary .tier-dot{background:#fff}
 
 .tier-body{padding:0 16px 16px;border-top:1px solid var(--line)}
 .tier-rule{font-size:13px;color:var(--text);background:#f8fbff;border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin:14px 0 10px}
@@ -83,7 +90,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
     </div>
   </details>
 
-  <details class="infection-tier tier-2">
+  <details class="infection-tier tier-2" open>
     <summary>
       <span class="tier-head"><span class="tier-dot"></span><span class="tier-name">二類感染症</span></span>
       <span class="tier-count">7疾患</span>
@@ -103,7 +110,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
     </div>
   </details>
 
-  <details class="infection-tier tier-3">
+  <details class="infection-tier tier-3" open>
     <summary>
       <span class="tier-head"><span class="tier-dot"></span><span class="tier-name">三類感染症</span></span>
       <span class="tier-count">5疾患</span>
@@ -121,7 +128,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
     </div>
   </details>
 
-  <details class="infection-tier tier-4">
+  <details class="infection-tier tier-4" open>
     <summary>
       <span class="tier-head"><span class="tier-dot"></span><span class="tier-name">四類感染症</span></span>
       <span class="tier-count">43疾患</span>
@@ -160,7 +167,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
     </div>
   </details>
 
-  <details class="infection-tier tier-5">
+  <details class="infection-tier tier-5" open>
     <summary>
       <span class="tier-head"><span class="tier-dot"></span><span class="tier-name">五類感染症</span></span>
       <span class="tier-count">49疾患</span>
