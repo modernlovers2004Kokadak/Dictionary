@@ -1,6 +1,6 @@
 const CACHE_PREFIX='riyoshi-glossary-';
-const CACHE=CACHE_PREFIX+'v3.0.35-search-outside-card-group-20260720';
-const ASSETS=['./','./index.html','./style.css','./manifest.webmanifest','./glossaryData.js','./glossaryQuizData.js','./glossaryApp.js','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./favicon-32.png'];
+const CACHE=CACHE_PREFIX+'v3.0.38-infection-guide-title-size-match-20260720';
+const ASSETS=['./','./index.html','./infection-classification-guide.html','./style.css','./manifest.webmanifest','./glossaryData.js','./glossaryQuizData.js','./glossaryApp.js','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./favicon-32.png'];
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
     const cache=await caches.open(CACHE);
@@ -22,9 +22,9 @@ self.addEventListener('fetch',event=>{
   if(url.origin!==self.location.origin)return;
   if(event.request.mode==='navigate'){
     event.respondWith(fetch(new Request(event.request,{cache:'no-store'})).then(response=>{
-      if(response&&response.ok){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(new URL('./index.html',self.registration.scope).href,copy));}
+      if(response&&response.ok){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));}
       return response;
-    }).catch(()=>caches.match(new URL('./index.html',self.registration.scope).href)));
+    }).catch(()=>caches.match(event.request).then(cached=>cached||caches.match(new URL('./index.html',self.registration.scope).href))));
     return;
   }
   event.respondWith(caches.match(event.request).then(cached=>{
