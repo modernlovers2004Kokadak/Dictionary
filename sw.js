@@ -1,5 +1,5 @@
 const CACHE_PREFIX='riyoshi-glossary-';
-const CACHE=CACHE_PREFIX+'v3.0.38-infection-guide-common-header-text-size-20260720';
+const CACHE=CACHE_PREFIX+'v3.0.39-category-reset-20260720';
 const ASSETS=['./','./index.html','./infection-classification-guide.html','./style.css','./manifest.webmanifest','./glossaryData.js','./glossaryQuizData.js','./glossaryApp.js','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./favicon-32.png'];
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
