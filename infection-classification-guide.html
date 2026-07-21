@@ -4,215 +4,211 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta name="theme-color" content="#073d86">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="用語集">
 <title>感染症法 一類〜五類 分類ガイド</title>
-<style>:root{
-  --navy: #10233f;
-  --nav: #073d86;
-  --bg: #f4f8fd;
-  --card: #ffffff;
-  --line: #dfe8f2;
-  --text: #10233f;
-  --muted: #62718a;
-  --red: #e8576f;
-  --coral: #e97d65;
-  --orange: #f08a24;
-  --green: #2f9f82;
-  --gray: #8a96a6;
-  --font-lv1: 22px;
-  --font-lv2: 20px;
-  --font-lv3: 18px;
-  --font-lv4: 16px;
-  --font-lv5: 14px;
-}*{
-  box-sizing: border-box;
-}html{
-  background: var(--bg);
-}body{
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;
-  font-size: var(--font-lv4);
-  font-weight: 400;
-  line-height: 1.7;
-}button,a,summary{
-  font: inherit;
-}.g-nav{
-  position: sticky;
-  top: 0;
-  z-index: 30;
-  display: grid;
-  grid-template-columns: 54px 1fr 54px;
-  align-items: center;
-  min-height: 56px;
-  padding: 0 8px;
-  background: var(--nav);
-  color: #fff;
-}.g-nav button,.g-nav a{
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 44px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: #fff;
-  text-decoration: none;
-  font-size: var(--font-lv1);
-  line-height: 1;
-  cursor: pointer;
-}.g-nav .g-title{
-  text-align: center;
-  font-size: var(--font-lv1);
-  font-weight: 700;
-  line-height: 1.25;
-}.page-wrap{
-  width: min(100%,680px);
-  margin: 0 auto;
-  padding: 20px 14px 60px;
-}.infection-guide-title{
-  margin: 0 0 16px;
-  color: var(--navy);
-  font-size: var(--font-lv2);
-  font-weight: 700;
-  line-height: 1.45;
-}.infection-tier{
-  --tier-color: var(--gray);
-  margin: 0 0 14px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: var(--card);
-  box-shadow: 0 2px 10px rgba(16,35,63,.05);
-}.tier-1{
-  --tier-color: var(--red);
-}.tier-2{
-  --tier-color: var(--coral);
-}.tier-3{
-  --tier-color: var(--orange);
-}.tier-4{
-  --tier-color: var(--green);
-}.tier-5{
-  --tier-color: var(--gray);
-}.infection-tier summary{
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0,1fr) auto 18px;
-  align-items: center;
-  gap: 10px;
-  min-height: 56px;
-  padding: 13px 14px 13px 16px;
-  list-style: none;
-  cursor: pointer;
-  background: var(--tier-color);
-  color: #fff;
-}.infection-tier summary::-webkit-details-marker{
-  display: none;
-}.infection-tier summary::after{
-  content: "▾";
-  font-size: var(--font-lv5);
-  line-height: 1;
-  text-align: center;
-  transition: transform .18s ease;
-}.infection-tier[open] summary::after{
-  transform: rotate(180deg);
-}.tier-head{
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  gap: 10px;
-}.tier-dot{
-  width: 9px;
-  height: 9px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  background: #fff;
-}.tier-name{
-  min-width: 0;
-  font-size: var(--font-lv3);
-  font-weight: 400;
-  line-height: 1.4;
-}.tier-count{
-  font-size: var(--font-lv5);
-  font-weight: 400;
-  white-space: nowrap;
-}.tier-body{
-  display: grid;
-  gap: 12px;
-  padding: 14px;
-  border-top: 1px solid rgba(255,255,255,.25);
-}.info-block{
-  margin: 0;
-  padding: 13px 14px;
-  border: 1px solid var(--line);
-  border-radius: 11px;
-  background: #f8fbff;
-}.info-block.memory{
-  background: #fff8e9;
-  border-color: #f0dfb7;
-}.info-label{
-  display: block;
-  margin: 0 0 5px;
-  font-size: var(--font-lv4);
-  font-weight: 700;
-  line-height: 1.4;
-}.info-block p{
-  margin: 0;
-  font-size: var(--font-lv4);
-  font-weight: 400;
-}.tier-group{
-  margin: 0;
-  padding: 13px 14px 14px;
-  border: 1px solid var(--line);
-  border-radius: 11px;
-  background: #fff;
-}.tier-group-title{
-  margin: 0 0 9px;
-  color: var(--muted);
-  font-size: var(--font-lv4);
-  font-weight: 400;
-  line-height: 1.5;
-}.tier-diseases{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}.tier-diseases li{
-  padding: 5px 10px;
-  border: 1px solid color-mix(in srgb,var(--tier-color) 28%,#dfe8f2);
-  border-radius: 999px;
-  background: color-mix(in srgb,var(--tier-color) 9%,#fff);
-  color: var(--text);
-  font-size: var(--font-lv5);
-  font-weight: 400;
-  line-height: 1.45;
+<style>
+:root{
+  --navy:#10233f;
+  --nav:#073d86;
+  --bg:#f4f8fd;
+  --card:#ffffff;
+  --line:#dfe8f2;
+  --text:#10233f;
+  --muted:#62718a;
+  --red:#e8576f;
+  --coral:#e97d65;
+  --orange:#f08a24;
+  --green:#2f9f82;
+  --gray:#8a96a6;
+  --font-lv1:22px;
+  --font-lv2:20px;
+  --font-lv3:18px;
+  --font-lv4:16px;
+  --font-lv5:14px;
 }
-@supports not (background:color-mix(in srgb,#000 10%,#fff)){.tier-diseases li{
-  background: #f2f5f9;
-  border-color: var(--line);
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;
+  font-size:var(--font-lv4);
+  font-weight:400;
+  line-height:1.7;
 }
+button,a,summary{font:inherit}
+.g-nav{
+  position:sticky;
+  top:0;
+  z-index:30;
+  display:grid;
+  grid-template-columns:54px 1fr 54px;
+  align-items:center;
+  min-height:56px;
+  padding:0 8px;
+  background:var(--nav);
+  color:#fff;
 }
-@media(max-width:520px){.g-nav .g-title{
-  font-size: 18px;
-}.page-wrap{
-  padding: 16px 12px 48px;
-}.infection-guide-title{
-  font-size: var(--font-lv2);
-}.infection-tier summary{
-  padding-left: 14px;
-}.tier-body{
-  padding: 12px;
+.g-nav button,.g-nav a{
+  display:grid;
+  place-items:center;
+  width:100%;
+  height:44px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#fff;
+  text-decoration:none;
+  font-size:var(--font-lv1);
+  line-height:1;
+  cursor:pointer;
 }
+.g-nav .g-title{
+  text-align:center;
+  font-size:var(--font-lv1);
+  font-weight:700;
+  line-height:1.25;
 }
-@media(prefers-reduced-motion:reduce){.infection-tier summary::after{
-  transition: none;
+.page-wrap{
+  width:min(100%,680px);
+  margin:0 auto;
+  padding:20px 14px 60px;
 }
+.infection-guide-title{
+  margin:0 0 16px;
+  color:var(--navy);
+  font-size:var(--font-lv2);
+  font-weight:700;
+  line-height:1.45;
+}
+.infection-tier{
+  --tier-color:var(--gray);
+  margin:0 0 14px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--card);
+  box-shadow:0 2px 10px rgba(16,35,63,.05);
+}
+.tier-1{--tier-color:var(--red)}
+.tier-2{--tier-color:var(--coral)}
+.tier-3{--tier-color:var(--orange)}
+.tier-4{--tier-color:var(--green)}
+.tier-5{--tier-color:var(--gray)}
+.infection-tier summary{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto 18px;
+  align-items:center;
+  gap:10px;
+  min-height:56px;
+  padding:13px 14px 13px 16px;
+  list-style:none;
+  cursor:pointer;
+  background:var(--tier-color);
+  color:#fff;
+}
+.infection-tier summary::-webkit-details-marker{display:none}
+.infection-tier summary::after{
+  content:"▾";
+  font-size:var(--font-lv5);
+  line-height:1;
+  text-align:center;
+  transition:transform .18s ease;
+}
+.infection-tier[open] summary::after{transform:rotate(180deg)}
+.tier-head{display:flex;align-items:center;min-width:0;gap:10px}
+.tier-dot{
+  width:9px;
+  height:9px;
+  flex:0 0 auto;
+  border-radius:50%;
+  background:#fff;
+}
+.tier-name{
+  min-width:0;
+  font-size:var(--font-lv3);
+  font-weight:400;
+  line-height:1.4;
+}
+.tier-count{
+  font-size:var(--font-lv5);
+  font-weight:400;
+  white-space:nowrap;
+}
+.tier-body{
+  display:grid;
+  gap:12px;
+  padding:14px;
+  border-top:1px solid rgba(255,255,255,.25);
+}
+.info-block{
+  margin:0;
+  padding:13px 14px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:#f8fbff;
+}
+.info-block.memory{
+  background:#fff8e9;
+  border-color:#f0dfb7;
+}
+.info-label{
+  display:block;
+  margin:0 0 5px;
+  font-size:var(--font-lv4);
+  font-weight:700;
+  line-height:1.4;
+}
+.info-block p{
+  margin:0;
+  font-size:var(--font-lv4);
+  font-weight:400;
+}
+.tier-group{
+  margin:0;
+  padding:13px 14px 14px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:#fff;
+}
+.tier-group-title{
+  margin:0 0 9px;
+  color:var(--muted);
+  font-size:var(--font-lv4);
+  font-weight:400;
+  line-height:1.5;
+}
+.tier-diseases{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.tier-diseases li{
+  padding:5px 10px;
+  border:1px solid color-mix(in srgb,var(--tier-color) 28%,#dfe8f2);
+  border-radius:999px;
+  background:color-mix(in srgb,var(--tier-color) 9%,#fff);
+  color:var(--text);
+  font-size:var(--font-lv5);
+  font-weight:400;
+  line-height:1.45;
+}
+@supports not (background:color-mix(in srgb,#000 10%,#fff)){
+  .tier-diseases li{background:#f2f5f9;border-color:var(--line)}
+}
+@media(max-width:520px){
+  .g-nav .g-title{font-size:18px}
+  .page-wrap{padding:16px 12px 48px}
+  .infection-guide-title{font-size:var(--font-lv2)}
+  .infection-tier summary{padding-left:14px}
+  .tier-body{padding:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  .infection-tier summary::after{transition:none}
 }
 </style>
 </head>
@@ -319,7 +315,7 @@
 <div class="info-block"><span class="info-label">【対応】</span><p>届出のみ（発生動向調査）。行動制限は基本的にない。</p></div>
 <div class="info-block memory"><span class="info-label">【覚え方】</span><p>一類〜四類（約60疾患）をしっかり覚えれば、残りは基本的に五類という消去法が成立する。</p></div>
 <section class="tier-group"><p class="tier-group-title">子どもがよくかかる身近な感染症</p><ul class="tier-diseases">
-<li>インフルエンザ</li><li>水痘（定点把握）</li><li>水痘（入院例・全数把握）</li><li>流行性耳下腺炎</li>
+<li>インフルエンザ</li><li>水痘</li><li>水痘（入院例）</li><li>流行性耳下腺炎</li>
 <li>麻しん</li><li>風しん</li><li>先天性風しん症候群</li><li>手足口病</li>
 <li>ヘルパンギーナ</li><li>伝染性紅斑</li><li>咽頭結膜熱</li><li>突発性発しん</li>
 <li>百日咳</li><li>RSウイルス感染症</li><li>A群溶血性レンサ球菌咽頭炎</li>
