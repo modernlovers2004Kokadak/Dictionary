@@ -61,6 +61,20 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
 .tier-5 .tier-diseases li{background:#eef1f5;border-color:#d9dfe6}
 .infection-guide{font-size:17px}.infection-guide .infection-guide-title,.infection-guide .tier-name,.infection-guide .tier-count,.infection-guide .tier-rule,.infection-guide .tier-mnemonic,.infection-guide .tier-group-title,.infection-guide .tier-diseases li{font-size:inherit}.infection-guide .infection-guide-title,.infection-guide .tier-name{font-weight:400}
 @media(max-width:440px){.infection-guide{font-size:16px}.g-nav .g-title{font-size:18px}}
+
+/* Unified styles for inf-box to match box styles */
+.inf-box{border-radius:10px;padding:11px 12px;margin:10px 0;font-size:17px;font-weight:600}
+.inf-box.inf-memory{background:var(--memory);border-left:6px solid var(--memory-border)}
+.inf-box.inf-point{background:var(--point);border-left:6px solid var(--point-border)}
+.inf-box.inf-trap{background:var(--trap);border-left:6px solid var(--trap-border)}
+.inf-box.inf-compare{background:#efe9f7;border-left:6px solid #7e57c2}
+
+
+/* padding fix */
+.inf-box, .box {
+  padding: 16px 18px !important;
+  line-height: 1.6;
+}
 </style>
 </head>
 <body>
