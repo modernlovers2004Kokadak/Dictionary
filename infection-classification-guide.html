@@ -89,7 +89,7 @@ button,a,summary{font:inherit}
   font-weight:400;
   line-height:1.45;
 }
-.guide-section-title.guide-emphasis{font-weight:700}
+.guide-section-title.guide-emphasis{font-weight:600}
 .guide-section-title:first-of-type{margin-top:0}
 .priority-details{
   margin:0 0 18px;
@@ -259,7 +259,7 @@ button,a,summary{font:inherit}
 .disease-close{flex:none;width:38px;height:38px;border:0;border-radius:50%;background:#e9eef2;color:#243746;font-size:25px;line-height:1;cursor:pointer}
 .disease-detail{margin:0;padding:14px 16px 20px}
 .disease-detail dt{margin-top:14px;color:#375266;font-size:16px;font-weight:400;line-height:1.45}
-.disease-detail dt.detail-emphasis{font-weight:700}
+.disease-detail dt.detail-emphasis{font-weight:600}
 .disease-detail dt:first-child{margin-top:0}
 .disease-detail dd{margin:3px 0 0;color:#182934;font-size:16px;line-height:1.7;overflow-wrap:anywhere}
 .importance{display:inline-block;padding:3px 10px;border-radius:999px;font-weight:400}
@@ -297,10 +297,10 @@ button,a,summary{font:inherit}
 .infection-tier .info-label{
   margin:0 0 2px;
   font-size:16px;
-  font-weight:700;
+  font-weight:600;
   line-height:1.45;
 }
-.infection-tier .info-block.memory .info-label{font-weight:700}
+.infection-tier .info-block.memory .info-label{font-weight:600}
 .infection-tier .info-block p{
   display:block;
   font-size:16px;
@@ -526,7 +526,7 @@ button,a,summary{font:inherit}
 <script src="infectionDiseaseData.js"></script>
 <script>
 (()=>{
-  const modal=document.getElementById('diseaseModal'),title=document.getElementById('diseaseTitle'),detail=document.getElementById('diseaseDetail');
+  const modal=document.getElementById('diseaseModal'),dialog=modal.querySelector('.disease-dialog'),title=document.getElementById('diseaseTitle'),detail=document.getElementById('diseaseDetail');
   const diseases=globalThis.INFECTION_DISEASE_DATA?.diseases||[];
   const byName=new Map(diseases.map(item=>[item.name,item]));
   const escapeHtml=value=>String(value||'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
@@ -547,6 +547,10 @@ button,a,summary{font:inherit}
   const priorityList=document.getElementById('priorityList');
   diseases.filter(item=>item.importance==='最重要').forEach(item=>{const button=document.createElement('button');button.type='button';button.className='priority-item';button.append(document.createTextNode(item.name),document.createElement('br'),document.createTextNode(`※${item.route}`));button.addEventListener('click',()=>open(item,button));priorityList.append(button)});
   modal.querySelector('.disease-close').addEventListener('click',close);modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
+  let swipeStartX=0,swipeStartY=0,swipeStartedAtTop=false,swipeTracking=false,swipeLocked=false;
+  dialog.addEventListener('touchstart',e=>{if(e.touches.length!==1||swipeLocked)return;const touch=e.touches[0];swipeStartX=touch.clientX;swipeStartY=touch.clientY;swipeStartedAtTop=dialog.scrollTop<=1;swipeTracking=true},{passive:true});
+  dialog.addEventListener('touchcancel',()=>{swipeTracking=false},{passive:true});
+  dialog.addEventListener('touchend',e=>{if(!swipeTracking||swipeLocked)return;swipeTracking=false;const touch=e.changedTouches[0];if(!touch||!swipeStartedAtTop)return;const dx=touch.clientX-swipeStartX,dy=touch.clientY-swipeStartY;if(dy<90||dy<=Math.abs(dx)*1.25)return;swipeLocked=true;close();setTimeout(()=>{swipeLocked=false},400)},{passive:true});
 })();
 </script>
 </body>
