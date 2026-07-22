@@ -246,9 +246,9 @@ button,a,summary{font:inherit}
   cursor:pointer;
   transition:background-color .15s ease;
 }
-.tier-disease-name{font-weight:800;overflow-wrap:anywhere}
-.tier-disease-name.最重要{color:#c62828}.tier-disease-name.重要{color:#c55a00}.tier-disease-name.低優先{color:#1565c0}
-.tier-importance{display:block;margin-top:2px;color:var(--text);font-size:12px;font-weight:400;line-height:1.35}
+.tier-disease-name{color:#000;font-weight:400;overflow-wrap:anywhere}
+.tier-disease-name.最重要,.tier-disease-name.重要,.tier-disease-name.低優先{color:#000}
+.tier-importance{display:block;margin-top:2px;color:#000;font-size:12px;font-weight:400;line-height:1.35}
 .tier-diseases li:active{background:#e5edf2}
 .tier-diseases li:focus-visible{outline:3px solid #f2a900;outline-offset:2px}
 .disease-modal[hidden]{display:none}
@@ -334,16 +334,17 @@ button,a,summary{font:inherit}
 .infection-tier .tier-disease-name{
   display:block;
   margin:0 0 2px;
-  font-weight:800;
+  color:#000;
+  font-weight:400;
   line-height:1.45;
 }
-.infection-tier .tier-disease-name.最重要{color:#c62828}
-.infection-tier .tier-disease-name.重要{color:#c55a00}
-.infection-tier .tier-disease-name.低優先{color:#1565c0}
+.infection-tier .tier-disease-name.最重要,
+.infection-tier .tier-disease-name.重要,
+.infection-tier .tier-disease-name.低優先{color:#000}
 .infection-tier .tier-importance{
   display:block;
   margin:0;
-  color:var(--text);
+  color:#000;
   font-size:14px;
   font-weight:400;
   line-height:1.45;
@@ -542,9 +543,9 @@ button,a,summary{font:inherit}
     <dt>重要度</dt><dd><span class="importance ${escapeHtml(item.importance)}">${escapeHtml(item.importance)}</span></dd>`;
     modal.hidden=false;document.body.style.overflow='hidden';modal.querySelector('.disease-close').focus();
   }
-  document.querySelectorAll('.tier-diseases li').forEach(li=>{const item=byName.get(li.textContent.trim());if(!item)return;li.replaceChildren();const name=document.createElement('span');name.className=`tier-disease-name ${item.importance}`;name.textContent=item.name;const importance=document.createElement('span');importance.className='tier-importance';importance.textContent=item.importance==='最重要'?'★★★★★ 最重要':item.importance==='重要'?'★★★★ 重要':'★★★ 頻出';li.append(name,importance);li.tabIndex=0;li.setAttribute('role','button');li.setAttribute('aria-label',`${item.name}の詳細を開く`);li.addEventListener('click',()=>open(item,li));li.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(item,li)}})});
+  document.querySelectorAll('.tier-diseases li').forEach(li=>{const item=byName.get(li.textContent.trim());if(!item)return;li.replaceChildren();const name=document.createElement('span');name.className=`tier-disease-name ${item.importance}`;name.append(document.createTextNode(item.name),document.createElement('br'),document.createTextNode(`※${item.route}`));const importance=document.createElement('span');importance.className='tier-importance';importance.textContent=item.importance==='最重要'?'★★★★★':item.importance==='重要'?'★★★★':'★★★';li.append(name,importance);li.tabIndex=0;li.setAttribute('role','button');li.setAttribute('aria-label',`${item.name}の詳細を開く`);li.addEventListener('click',()=>open(item,li));li.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(item,li)}})});
   const priorityList=document.getElementById('priorityList');
-  diseases.filter(item=>item.importance==='最重要').forEach(item=>{const button=document.createElement('button');button.type='button';button.className='priority-item';button.textContent=`${item.classification.replace('感染症','')}｜${item.name}｜${item.route}`;button.addEventListener('click',()=>open(item,button));priorityList.append(button)});
+  diseases.filter(item=>item.importance==='最重要').forEach(item=>{const button=document.createElement('button');button.type='button';button.className='priority-item';button.append(document.createTextNode(item.name),document.createElement('br'),document.createTextNode(`※${item.route}`));button.addEventListener('click',()=>open(item,button));priorityList.append(button)});
   modal.querySelector('.disease-close').addEventListener('click',close);modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
 })();
 </script>
