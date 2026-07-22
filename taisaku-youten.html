@@ -67,39 +67,6 @@ footer{text-align:center;color:#687078;font-size:14px;padding:12px}
   .legend div{font-size:14px}
 }
 
-/* 感染症完全一覧 統合部分 */
-.inf-intro{background:transparent;border:0;border-radius:0;padding:0;margin:10px 0}.inf-notice{background:#f8fafb;border:1px solid #dfe7eb;border-radius:11px;padding:11px 12px;margin:10px 0}
-.inf-box{border-radius:10px;padding:11px 12px;margin:10px 0;font-size:16px;font-weight:400}
-.inf-point{background:var(--point);border-left:5px solid var(--point-border)}
-.inf-trap{background:var(--trap);border-left:5px solid var(--trap-border)}
-.inf-memory{background:var(--memory);border-left:5px solid var(--memory-border)}
-.inf-compare{background:#f2eafe;border-left:5px solid #7b4ab5}
-.inf-disease,.inf-group{border:1px solid #dfe7eb;border-radius:11px;margin:9px 0;box-shadow:none}
-.inf-disease>summary,.inf-group>summary{font-size:18px;font-weight:400;padding:12px 42px 12px 13px}
-.inf-disease>summary{background:#0b7057}
-.inf-disease>summary{
-  font-size:16px;
-  white-space:normal;
-  overflow-wrap:break-word;
-  letter-spacing:normal;
-  padding-left:10px;
-  padding-right:52px;
-}
-@media(max-width:380px){
-  .inf-disease>summary{font-size:16px;font-weight:400;letter-spacing:normal;padding-left:8px;padding-right:52px;}
-}
-
-.inf-group>summary{background:#244d70}
-.inf-disease>summary span,.inf-group>summary span{display:inline-block;margin-left:6px;font-size:14px;font-weight:700;opacity:.9}
-.inf-body{padding:11px 13px 14px}
-.inf-body dl{display:grid;grid-template-columns:88px 1fr;gap:6px 8px;margin:0}
-.inf-body dt{font-weight:700;color:var(--green)}
-.inf-body dd{margin:0}
-.inf-group .inf-body ul{margin:0;padding-left:22px;columns:2;column-gap:24px}
-.inf-group .inf-body li{break-inside:avoid;margin:4px 0}
-.inf-badges{display:flex;gap:7px;flex-wrap:wrap;margin:7px 0}
-.inf-badge{border-radius:999px;background:#e5eef5;padding:4px 9px;font-size:14px;font-weight:700}
-@media(max-width:560px){.inf-group .inf-body ul{columns:1}.inf-body dl{grid-template-columns:80px 1fr}}
 
 /* Requested color and label scheme */
 main > details > summary{background:#073D86;color:#fff;}
@@ -110,15 +77,7 @@ main > details > summary{background:#073D86;color:#fff;}
   header{font-size:16px;}
 }
 
-.inf-memory{background:#fff3c4 !important;border-left:5px solid #e5a900 !important;}
-.inf-point{background:#ffe8e8 !important;border-left:5px solid #d9363e !important;}
-.inf-trap{background:#e8f3ff !important;border-left:5px solid #1976d2 !important;}
 
-/* 衛生管理内アコーディオン見出し */
-details:nth-of-type(2) details > summary{
-  background:#2E5F98 !important;
-  color:#fff;
-}
 
 .exam-note-card{
   margin:16px 0;
@@ -158,48 +117,24 @@ details:nth-of-type(2) details > summary{
   .sec li{margin:9px 0;}
 }
 
-/* Unified styles for inf-box to match box styles */
-.inf-box{border-radius:10px;padding:11px 12px;margin:10px 0;font-size:16px;font-weight:400}
-.inf-box.inf-memory{background:var(--memory);border-left:6px solid var(--memory-border)}
-.inf-box.inf-point{background:var(--point);border-left:6px solid var(--point-border)}
-.inf-box.inf-trap{background:var(--trap);border-left:6px solid var(--trap-border)}
-.inf-box.inf-compare{background:#efe9f7;border-left:6px solid #7e57c2}
-
-/* padding fix */
-.inf-box, .box {
-  padding: 16px 18px !important;
-  line-height: 1.6;
-}
-
 /* 太字の使用を重要ラベルと重要数値に限定 */
 .box{font-weight:400;}
-.inf-box{font-weight:400;}
 .box-title{font-weight:700;display:block;margin-bottom:6px;}
 .item-title{font-weight:400;}
-.inf-body dt{font-weight:400;}
-.inf-badge{font-weight:400;}
-.inf-disease>summary span,.inf-group>summary span{font-weight:400;}
 
 /* v3.0.61 typography system */
 :root{--font-lv1:22px;--font-lv2:20px;--font-lv3:18px;--font-lv4:16px;--font-lv5:14px;}
 body{font-size:var(--font-lv4);}
 .g-nav .g-title{font-size:var(--font-lv1);}
 header{font-size:var(--font-lv2);}
-.infection-section-title,
 summary,
 h2,
-h3,
-.inf-disease>summary,
-.inf-group>summary{font-size:var(--font-lv3);font-weight:400;}
+h3{font-size:var(--font-lv3);font-weight:400;}
 .box,
-.inf-box,
 .box-title,
 .exam-note-title{font-size:var(--font-lv4);}
 .small,
 footer,
-.inf-disease>summary span,
-.inf-group>summary span,
-.inf-badge,
 .legend div{font-size:var(--font-lv5);}
 
 
@@ -250,42 +185,7 @@ footer,
 <li><span class="item-title">母子保健</span><span class="item-text">妊産婦・乳幼児の健康保持を目的とし、母子健康手帳、乳幼児健診、予防接種、低出生体重児対策を押さえる</span></li>
 <li><span class="item-title">生活習慣病</span><span class="item-text">がん、循環器病、糖尿病、脂質異常症、高血圧、歯周病など。食生活、運動、喫煙、飲酒、休養が予防の中心</span></li>
 </ul></div></details>
-<details open=""><summary>2．衛生管理（15問）</summary><div class="sec"><h2>感染症法（1類〜5類）完全一覧</h2><div class="memory box infection-mnemonic">【覚え方】<br>
-・1類＝熱・出血（＝重篤性）<br>
-・2類＝呼吸器（＝重篤性）<br>
-・3類＝消化器（＝就業制限）<br>
-・4類＝動物・虫・環境（＝動物・環境）<br>
-・5類＝発生動向（＝発生動向）<br>
-※例外あり／個別暗記</div><section class="inf-intro"><div class="inf-box inf-point"><strong>【ポイント】</strong><br>・類型＋以下をセットで覚える<br>
-・病原体<br>
-・感染経路<br>
-・届出<br>
-・就業制限<br>
-・予防</div><div class="inf-box inf-compare">【比較】<br>
-・麻しん＝空気感染<br>
-・風しん＝主に飛沫感染<br>
-・SARS・MERS＝2類<br>
-・COVID-19＝5類（定点）<br>
-・A型・E型肝炎＝4類<br>
-・その他のウイルス性肝炎＝5類</div><div class="inf-box inf-trap"><strong>【ひっかけ】</strong><br>・感染症法の就業制限と理容師法の伝染性の疾病による業務停止は別制度</div></section>
-<h2 class="infection-section-title">★★★★★ 最重要感染症</h2>
-<details class="inf-disease"><summary>1類｜エボラ出血熱｜感染者の血液・体液との直接接触</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>1類感染症</dd><dt>感染経路</dt><dd>感染者の血液・体液との直接接触</dd><dt>主な症状</dt><dd>発熱、強い倦怠感、嘔吐、下痢、出血症状</dd><dt>試験の要点</dt><dd>1類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details>
-<details class="inf-disease"><summary>2類｜結核｜空気感染（飛沫核感染）</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>2類感染症</dd><dt>感染経路</dt><dd>空気感染（飛沫核感染）</dd><dt>主な症状</dt><dd>長引くせき、たん、微熱、寝汗、体重減少</dd><dt>試験の要点</dt><dd>2類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details><details class="inf-disease"><summary>3類｜腸管出血性大腸菌感染症｜経口感染・食品媒介感染</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>3類感染症</dd><dt>感染経路</dt><dd>経口感染・食品媒介感染</dd><dt>主な症状</dt><dd>激しい腹痛、水様便、血便。溶血性尿毒症症候群を合併することがある</dd><dt>試験の要点</dt><dd>3類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details><details class="inf-disease"><summary>4類｜狂犬病｜感染動物の咬傷・唾液による感染</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>4類感染症</dd><dt>感染経路</dt><dd>感染動物の咬傷・唾液による感染</dd><dt>主な症状</dt><dd>発熱、咬傷部の異常感覚、恐水・恐風症状、けいれん</dd><dt>試験の要点</dt><dd>4類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>重要</dd></dl></div></details><details class="inf-disease"><summary>4類｜デング熱｜蚊媒介感染</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>4類感染症</dd><dt>感染経路</dt><dd>蚊媒介感染</dd><dt>主な症状</dt><dd>突然の高熱、頭痛、筋肉・関節痛、発疹</dd><dt>試験の要点</dt><dd>4類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>重要</dd></dl></div></details><details class="inf-disease"><summary>4類｜日本脳炎｜蚊媒介感染</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>4類感染症</dd><dt>感染経路</dt><dd>蚊媒介感染</dd><dt>主な症状</dt><dd>高熱、頭痛、意識障害、けいれん</dd><dt>試験の要点</dt><dd>4類感染症として分類と代表的な感染経路を覚える。</dd><dt>混同注意</dt><dd>ダニ媒介脳炎とは媒介動物が異なり、日本脳炎は蚊が媒介する。</dd><dt>重要度</dt><dd>重要</dd></dl></div></details><details class="inf-disease"><summary>4類｜レジオネラ症｜汚染水のエアロゾル吸入</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>4類感染症</dd><dt>感染経路</dt><dd>汚染水のエアロゾル吸入</dd><dt>主な症状</dt><dd>高熱、せき、呼吸困難、肺炎</dd><dt>試験の要点</dt><dd>4類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>重要</dd></dl></div></details><details class="inf-disease"><summary>4類｜A型肝炎｜糞口感染・経口感染</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>4類感染症</dd><dt>感染経路</dt><dd>糞口感染・経口感染</dd><dt>主な症状</dt><dd>発熱、倦怠感、食欲不振、黄疸</dd><dt>試験の要点</dt><dd>4類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details><details class="inf-disease"><summary>4類｜E型肝炎｜糞口感染・経口感染</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>4類感染症</dd><dt>感染経路</dt><dd>糞口感染・経口感染</dd><dt>主な症状</dt><dd>倦怠感、食欲不振、黄疸。妊婦では重症化に注意</dd><dt>試験の要点</dt><dd>4類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details><details class="inf-disease"><summary>5類｜インフルエンザ｜感染鳥・排泄物・分泌物・汚染環境との濃厚接触</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>5類感染症</dd><dt>感染経路</dt><dd>感染鳥・排泄物・分泌物・汚染環境との濃厚接触</dd><dt>主な症状</dt><dd>急な発熱、頭痛、関節痛、筋肉痛、せき</dd><dt>試験の要点</dt><dd>5類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details><details class="inf-disease"><summary>5類｜新型コロナウイルス感染症（COVID-19）｜飛沫感染・エアロゾル感染・接触感染</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>5類感染症</dd><dt>感染経路</dt><dd>飛沫感染・エアロゾル感染・接触感染</dd><dt>主な症状</dt><dd>発熱、せき、倦怠感、咽頭痛。嗅覚・味覚障害を伴うことがある</dd><dt>試験の要点</dt><dd>5類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details><details class="inf-disease"><summary>5類｜麻しん（はしか）｜空気感染（飛沫核感染）</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>5類感染症</dd><dt>感染経路</dt><dd>空気感染（飛沫核感染）</dd><dt>主な症状</dt><dd>高熱、せき、鼻水、結膜充血、コプリック斑、発疹</dd><dt>試験の要点</dt><dd>5類感染症として分類と代表的な感染経路を覚える。</dd><dt>混同注意</dt><dd>風しんより高熱・全身症が強く、空気感染する。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details><details class="inf-disease"><summary>5類｜風しん（三日ばしか）｜母子感染（垂直感染）</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>5類感染症</dd><dt>感染経路</dt><dd>母子感染（垂直感染）</dd><dt>主な症状</dt><dd>発熱、発疹、耳の後ろのリンパ節の腫れ</dd><dt>試験の要点</dt><dd>5類感染症として分類と代表的な感染経路を覚える。</dd><dt>混同注意</dt><dd>麻しんより症状は軽いが、妊娠初期の感染で先天性風しん症候群の危険がある。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details><details class="inf-disease"><summary>5類｜水痘｜空気感染・飛沫感染・接触感染</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>5類感染症</dd><dt>感染経路</dt><dd>空気感染・飛沫感染・接触感染</dd><dt>主な症状</dt><dd>発熱と、紅斑・水疱・かさぶたが混在する発疹</dd><dt>試験の要点</dt><dd>5類感染症として分類と代表的な感染経路を覚える。</dd><dt>混同注意</dt><dd>エムポックスではリンパ節腫脹が目立ち、発疹の分布や進み方も異なる。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details><details class="inf-disease"><summary>5類｜百日咳｜飛沫感染</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>5類感染症</dd><dt>感染経路</dt><dd>飛沫感染</dd><dt>主な症状</dt><dd>長く続く発作性の激しいせき、吸気性笛声</dd><dt>試験の要点</dt><dd>5類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details><details class="inf-disease"><summary>5類｜破傷風｜創傷感染</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>5類感染症</dd><dt>感染経路</dt><dd>創傷感染</dd><dt>主な症状</dt><dd>口が開きにくい、筋肉のこわばり、全身けいれん</dd><dt>試験の要点</dt><dd>5類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details><details class="inf-disease"><summary>5類｜梅毒｜性感染</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>5類感染症</dd><dt>感染経路</dt><dd>性感染</dd><dt>主な症状</dt><dd>無痛性のしこり、全身の発疹。進行すると多臓器障害</dd><dt>試験の要点</dt><dd>5類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details><details class="inf-disease"><summary>5類｜HIV感染症・AIDS（エイズ）｜血液感染・体液感染・性感染・母子感染</summary><div class="inf-body"><dl><dt>感染症法上の分類</dt><dd>5類感染症</dd><dt>感染経路</dt><dd>血液感染・体液感染・性感染・母子感染</dd><dt>主な症状</dt><dd>初期は発熱など。進行すると免疫低下による日和見感染症</dd><dt>試験の要点</dt><dd>5類感染症として分類と代表的な感染経路を覚える。</dd><dt>重要度</dt><dd>最重要</dd></dl></div></details>
-<h2 class="infection-section-title">1類〜5類 完全一覧</h2>
-<details class="inf-group"><summary>1類感染症 <span>7疾患</span></summary><div class="inf-body"><ul><li>エボラ出血熱</li><li>クリミア・コンゴ出血熱</li><li>痘そう</li><li>南米出血熱</li><li>ペスト</li><li>マールブルグ病</li><li>ラッサ熱</li></ul></div></details>
-<details class="inf-group"><summary>2類感染症 <span>7疾患</span></summary><div class="inf-body"><ul><li>急性灰白髄炎（ポリオ）</li><li>結核</li><li>ジフテリア</li><li>重症急性呼吸器症候群（SARS）</li><li>中東呼吸器症候群（MERS）</li><li>鳥インフルエンザ（H5N1）</li><li>鳥インフルエンザ（H7N9）</li></ul></div></details>
-<details class="inf-group"><summary>3類感染症 <span>5疾患</span></summary><div class="inf-body"><ul><li>コレラ</li><li>細菌性赤痢</li><li>腸管出血性大腸菌感染症</li><li>腸チフス</li><li>パラチフス</li></ul></div></details>
-<details class="inf-group"><summary>4類感染症｜動物由来 <span>11疾患</span></summary><div class="inf-body"><ul><li>狂犬病</li><li>Q熱</li><li>オウム病</li><li>ブルセラ症</li><li>炭疽</li><li>レプトスピラ症</li><li>Bウイルス病</li><li>野兎病</li><li>鼻疽</li><li>類鼻疽</li><li>鳥インフルエンザ（H5N1・H7N9を除く）</li></ul></div></details>
-<details class="inf-group"><summary>4類感染症｜蚊・ダニ媒介 <span>17疾患</span></summary><div class="inf-body"><ul><li>デング熱</li><li>マラリア</li><li>日本脳炎</li><li>ジカウイルス感染症</li><li>チクングニア熱</li><li>リフトバレー熱</li><li>ウエストナイル熱</li><li>ダニ媒介脳炎</li><li>つつが虫病</li><li>日本紅斑熱</li><li>ロッキー山紅斑熱</li><li>重症熱性血小板減少症候群（SFTS）</li><li>回帰熱</li><li>発しんチフス</li><li>東部ウマ脳炎</li><li>西部ウマ脳炎</li><li>ベネズエラウマ脳炎</li></ul></div></details>
-<details class="inf-group"><summary>4類感染症｜出血熱群 <span>4疾患</span></summary><div class="inf-body"><ul><li>オムスク出血熱</li><li>キャサヌル森林病</li><li>腎症候性出血熱</li><li>ハンタウイルス肺症候群</li></ul></div></details>
-<details class="inf-group"><summary>4類感染症｜その他 <span>12疾患</span></summary><div class="inf-body"><ul><li>A型肝炎</li><li>E型肝炎</li><li>黄熱</li><li>コクシジオイデス症</li><li>レジオネラ症</li><li>エキノコックス症</li><li>エムポックス</li><li>ボツリヌス症</li><li>ニパウイルス感染症</li><li>ヘンドラウイルス感染症</li><li>リッサウイルス感染症</li><li>ライム病</li></ul></div></details>
-<details class="inf-group"><summary>5類感染症｜全数把握 <span>25疾患</span></summary><div class="inf-body"><ul><li>アメーバ赤痢</li><li>ウイルス性肝炎（A型・E型を除く）</li><li>カルバペネム耐性腸内細菌目細菌感染症</li><li>急性弛緩性麻痺</li><li>急性脳炎</li><li>クリプトスポリジウム症</li><li>クロイツフェルト・ヤコブ病</li><li>劇症型溶血性レンサ球菌感染症</li><li>HIV感染症（AIDS）</li><li>ジアルジア症</li><li>侵襲性インフルエンザ菌感染症</li><li>侵襲性髄膜炎菌感染症</li><li>侵襲性肺炎球菌感染症</li><li>水痘（入院例）</li><li>先天性風しん症候群</li><li>播種性クリプトコックス症</li><li>破傷風</li><li>梅毒</li><li>バンコマイシン耐性黄色ブドウ球菌感染症</li><li>バンコマイシン耐性腸球菌感染症</li><li>百日咳</li><li>麻しん</li><li>風しん</li><li>薬剤耐性緑膿菌感染症</li><li>薬剤耐性アシネトバクター感染症</li></ul></div></details>
-<details class="inf-group"><summary>5類感染症｜小児科定点 <span>10疾患</span></summary><div class="inf-body"><ul><li>RSウイルス感染症</li><li>咽頭結膜熱</li><li>A群溶血性レンサ球菌咽頭炎</li><li>感染性胃腸炎</li><li>水痘</li><li>手足口病</li><li>伝染性紅斑</li><li>突発性発しん</li><li>ヘルパンギーナ</li><li>流行性耳下腺炎</li></ul></div></details>
-<details class="inf-group"><summary>5類感染症｜インフルエンザ・COVID-19定点 <span>2疾患</span></summary><div class="inf-body"><ul><li>インフルエンザ</li><li>新型コロナウイルス感染症</li></ul></div></details>
-<details class="inf-group"><summary>5類感染症｜眼科定点 <span>2疾患</span></summary><div class="inf-body"><ul><li>急性出血性結膜炎</li><li>流行性角結膜炎</li></ul></div></details>
-<details class="inf-group"><summary>5類感染症｜性感染症定点 <span>4疾患</span></summary><div class="inf-body"><ul><li>性器クラミジア感染症</li><li>性器ヘルペスウイルス感染症</li><li>尖圭コンジローマ</li><li>淋菌感染症</li></ul></div></details>
-<details class="inf-group"><summary>5類感染症｜基幹定点 <span>7疾患</span></summary><div class="inf-body"><ul><li>クラミジア肺炎</li><li>細菌性髄膜炎</li><li>マイコプラズマ肺炎</li><li>無菌性髄膜炎</li><li>ペニシリン耐性肺炎球菌感染症</li><li>メチシリン耐性黄色ブドウ球菌感染症</li><li>急性呼吸器感染症（ARI）</li></ul></div></details>
-<h2>感染症の予防</h2>
+<details open=""><summary>2．衛生管理（15問）</summary><div class="sec"><h2>感染症の予防</h2>
 <ul>
 <li><span class="item-title">感染源対策</span><span class="item-text">器具の消毒、患者の隔離、害虫駆除</span></li>
 <li><span class="item-title">感染経路対策</span><span class="item-text">手洗い、マスク、換気、器具消毒を中心に行う</span></li>

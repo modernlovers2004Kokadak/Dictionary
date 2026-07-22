@@ -81,6 +81,31 @@ button,a,summary{font:inherit}
   font-weight:700;
   line-height:1.45;
 }
+.guide-section-title{
+  margin:20px 0 10px;
+  color:var(--navy);
+  font-size:var(--font-lv3);
+  font-weight:700;
+  line-height:1.45;
+}
+.guide-section-title:first-of-type{margin-top:0}
+.priority-list{display:grid;gap:8px;margin:0 0 18px}
+.priority-item{
+  width:100%;
+  padding:10px 12px;
+  border:1px solid #f0caca;
+  border-radius:11px;
+  background:#fff7f7;
+  color:var(--text);
+  text-align:left;
+  cursor:pointer;
+}
+.priority-name{display:block;color:#9b1c1c;font-weight:700;line-height:1.45}
+.priority-meta{display:block;margin-top:2px;font-size:var(--font-lv5);line-height:1.55;overflow-wrap:anywhere}
+.memory-guide{margin:0 0 18px;padding:13px 14px;border:1px solid #f0dfb7;border-radius:11px;background:#fff8e9}
+.memory-guide ul{margin:0;padding-left:1.3em}
+.memory-guide li{margin:3px 0}
+.memory-guide-note{margin:9px 0 0;color:var(--muted);font-size:var(--font-lv5);line-height:1.55}
 .infection-tier{
   --tier-color:var(--gray);
   margin:0 0 14px;
@@ -110,13 +135,12 @@ button,a,summary{font:inherit}
 }
 .infection-tier summary::-webkit-details-marker{display:none}
 .infection-tier summary::after{
-  content:"▾";
-  font-size:var(--font-lv5);
+  content:"＋";
+  font-size:22px;
   line-height:1;
   text-align:center;
-  transition:transform .18s ease;
 }
-.infection-tier[open] summary::after{transform:rotate(180deg)}
+.infection-tier[open] summary::after{content:"−"}
 .tier-head{display:flex;align-items:center;min-width:0;gap:10px}
 .tier-dot{
   width:9px;
@@ -127,7 +151,7 @@ button,a,summary{font:inherit}
 }
 .tier-name{
   min-width:0;
-  font-size:var(--font-lv3);
+  font-size:var(--font-lv4);
   font-weight:400;
   line-height:1.4;
 }
@@ -199,6 +223,9 @@ button,a,summary{font:inherit}
   cursor:pointer;
   transition:background-color .15s ease;
 }
+.tier-disease-name{overflow-wrap:anywhere}
+.tier-importance{display:block;margin-top:2px;font-size:12px;font-weight:700;line-height:1.35}
+.tier-importance.最重要{color:#a51d1d}.tier-importance.重要{color:#8a4b08}.tier-importance.低優先{color:#526579}
 .tier-diseases li:active{background:#e5edf2}
 .tier-diseases li:focus-visible{outline:3px solid #f2a900;outline-offset:2px}
 .disease-modal[hidden]{display:none}
@@ -224,9 +251,75 @@ button,a,summary{font:inherit}
   .infection-tier summary{padding-left:14px}
   .tier-body{padding:12px}
 }
-@media(prefers-reduced-motion:reduce){
-  .infection-tier summary::after{transition:none}
+
+/* 一類見本：対策要点ページの表示規則に合わせる */
+.tier-1 .tier-body{
+  gap:10px;
+  padding:5px 14px 16px;
 }
+.tier-1 .info-block{
+  margin:10px 0 0;
+  padding:8px 12px;
+  border:0;
+  border-left:5px solid #d9363e;
+  border-radius:10px;
+  background:#ffe8e8;
+}
+.tier-1 .info-block.memory{
+  margin-top:0;
+  border-left-color:#e5a900;
+  background:#fff3c4;
+}
+.tier-1 .info-label{
+  margin:0 0 2px;
+  font-size:16px;
+  font-weight:600;
+  line-height:1.45;
+}
+.tier-1 .info-block p{
+  display:block;
+  font-size:16px;
+  font-weight:400;
+  line-height:1.65;
+}
+.tier-1 .tier-group{
+  margin:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+}
+.tier-1 .tier-diseases{
+  display:block;
+  margin:0;
+  padding-left:20px;
+  list-style:disc;
+}
+.tier-1 .tier-diseases li{
+  margin:9px 0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:var(--text);
+  font-size:16px;
+  font-weight:400;
+  line-height:1.65;
+}
+.tier-1 .tier-disease-name{
+  display:block;
+  margin:0 0 2px;
+  font-weight:600;
+  line-height:1.45;
+}
+.tier-1 .tier-importance{
+  display:block;
+  margin:0;
+  font-size:14px;
+  font-weight:400;
+  line-height:1.45;
+}
+.tier-1 .tier-diseases li:active{background:transparent}
 </style>
 </head>
 <body>
@@ -234,14 +327,28 @@ button,a,summary{font:inherit}
 <div class="page-wrap">
 <section class="infection-guide">
 <h2 class="infection-guide-title">感染症法 一類〜五類 分類ガイド</h2>
+<h3 class="guide-section-title">★★★★★ 最重要感染症</h3>
+<div class="priority-list" id="priorityList"></div>
+<h3 class="guide-section-title">一類〜五類の覚え方</h3>
+<div class="memory-guide">
+<ul>
+<li>一類：危険性が極めて高い</li>
+<li>二類：重篤な呼吸器感染症が中心</li>
+<li>三類：飲食物を扱う業務などの就業制限</li>
+<li>四類：動物・昆虫・環境などから感染</li>
+<li>五類：幅広い感染症の発生動向を把握</li>
+</ul>
+<p class="memory-guide-note">分類の傾向をつかむための覚え方で、すべての疾病に完全一致する規則ではありません</p>
+</div>
+<h3 class="guide-section-title">一類〜五類の全疾病一覧</h3>
 <details class="infection-tier tier-1" open="">
 <summary>
 <span class="tier-head"><span class="tier-dot"></span><span class="tier-name">一類感染症</span></span>
 <span class="tier-count">7疾患</span>
 </summary>
 <div class="tier-body">
-<div class="info-block"><span class="info-label">【対応】</span><p>必要に応じて入院勧告・措置、消毒などを行い、交通制限等の措置も可能な最も厳格な類型。</p></div>
-<div class="info-block memory"><span class="info-label">【覚え方】</span><p>7疾患中5つは病名に「熱」がつく。例外は「痘そう」と「ペスト」の2つだけ。</p></div>
+<div class="info-block"><span class="info-label">【対応】</span><p>必要に応じて入院勧告・措置、消毒などを行い、交通制限等の措置も可能な最も厳格な類型</p></div>
+<div class="info-block memory"><span class="info-label">【覚え方】</span><p>7疾患中5つは病名に「熱」がつく。例外は「痘そう」と「ペスト」の2つだけ</p></div>
 <section class="tier-group"><ul class="tier-diseases">
 <li>エボラ出血熱</li>
 <li>クリミア・コンゴ出血熱</li>
@@ -381,11 +488,14 @@ button,a,summary{font:inherit}
 <script>
 (()=>{
   const modal=document.getElementById('diseaseModal'),title=document.getElementById('diseaseTitle'),detail=document.getElementById('diseaseDetail');
-  const byName=new Map((globalThis.INFECTION_DISEASE_DATA?.diseases||[]).map(item=>[item.name,item]));
+  const diseases=globalThis.INFECTION_DISEASE_DATA?.diseases||[];
+  const byName=new Map(diseases.map(item=>[item.name,item]));
   const escapeHtml=value=>String(value||'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   let lastFocus=null;
   function close(){modal.hidden=true;document.body.style.overflow='';lastFocus?.focus()}
-  function open(item,trigger){lastFocus=trigger;title.textContent=item.alias?`${item.name}（${item.alias}）`:item.name;detail.innerHTML=`
+  function open(item,trigger){lastFocus=trigger;title.textContent=item.name;detail.innerHTML=`
+    <dt>正式名称</dt><dd>${escapeHtml(item.name)}</dd>
+    <dt>別名・通称</dt><dd>${escapeHtml(item.alias||'なし')}</dd>
     <dt>感染症法上の分類</dt><dd>${escapeHtml(item.classification)}</dd>
     <dt>主な感染経路</dt><dd>${escapeHtml(item.route)}</dd>
     <dt>代表的・特徴的な症状</dt><dd>${escapeHtml(item.symptoms)}</dd>
@@ -394,7 +504,9 @@ button,a,summary{font:inherit}
     <dt>重要度</dt><dd><span class="importance ${escapeHtml(item.importance)}">${escapeHtml(item.importance)}</span></dd>`;
     modal.hidden=false;document.body.style.overflow='hidden';modal.querySelector('.disease-close').focus();
   }
-  document.querySelectorAll('.tier-diseases li').forEach(li=>{const item=byName.get(li.textContent.trim());if(!item)return;li.tabIndex=0;li.setAttribute('role','button');li.setAttribute('aria-label',`${item.name}の詳細を開く`);li.addEventListener('click',()=>open(item,li));li.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(item,li)}})});
+  document.querySelectorAll('.tier-diseases li').forEach(li=>{const item=byName.get(li.textContent.trim());if(!item)return;li.replaceChildren();const name=document.createElement('span');name.className='tier-disease-name';name.textContent=item.name;const importance=document.createElement('span');importance.className=`tier-importance ${item.importance}`;importance.textContent=item.importance==='最重要'?'★★★★★ 最重要':item.importance==='重要'?'★★★★ 重要':'★★ 低優先';li.append(name,importance);li.tabIndex=0;li.setAttribute('role','button');li.setAttribute('aria-label',`${item.name}の詳細を開く`);li.addEventListener('click',()=>open(item,li));li.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(item,li)}})});
+  const priorityList=document.getElementById('priorityList');
+  diseases.filter(item=>item.importance==='最重要').forEach(item=>{const button=document.createElement('button');button.type='button';button.className='priority-item';const name=document.createElement('span');name.className='priority-name';name.textContent=item.name;const meta=document.createElement('span');meta.className='priority-meta';meta.textContent=`${item.classification}｜${item.exam}`;button.append(name,meta);button.addEventListener('click',()=>open(item,button));priorityList.append(button)});
   modal.querySelector('.disease-close').addEventListener('click',close);modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
 })();
 </script>
