@@ -196,57 +196,24 @@ button,a,summary{font:inherit}
   font-size:var(--font-lv5);
   font-weight:400;
   line-height:1.45;
-}
-.term-detail-button{
-  appearance:none;
-  margin:0;
-  padding:0;
-  border:0;
-  background:transparent;
-  color:inherit;
-  font:inherit;
-  line-height:inherit;
-  text-align:left;
-  text-decoration:underline;
-  text-decoration-color:color-mix(in srgb,var(--tier-color) 55%,transparent);
-  text-underline-offset:3px;
   cursor:pointer;
+  transition:background-color .15s ease;
 }
-.term-detail-dialog{
-  width:min(calc(100% - 28px),560px);
-  max-height:min(78vh,680px);
-  padding:0;
-  border:0;
-  border-radius:16px;
-  color:var(--text);
-  box-shadow:0 18px 55px rgba(16,35,63,.28);
-}
-.term-detail-dialog::backdrop{background:rgba(16,35,63,.5)}
-.term-detail-panel{padding:20px 18px 18px}
-.term-detail-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
-.term-detail-title{flex:1;margin:0;font-size:var(--font-lv2);line-height:1.45}
-.term-detail-close{
-  display:grid;
-  place-items:center;
-  width:36px;
-  height:36px;
-  flex:0 0 auto;
-  padding:0;
-  border:1px solid var(--line);
-  border-radius:50%;
-  background:#fff;
-  color:var(--text);
-  font-size:22px;
-  line-height:1;
-  cursor:pointer;
-}
-.term-detail-section{padding:13px 0;border-top:1px solid var(--line)}
-.term-detail-section h3{margin:0 0 5px;font-size:var(--font-lv4);line-height:1.4}
-.term-detail-section p,.term-detail-section ul{margin:0;font-size:var(--font-lv4)}
-.term-detail-section ul{padding-left:1.25em}
-.term-detail-facts{display:grid;grid-template-columns:max-content 1fr;gap:7px 12px;margin:0;font-size:var(--font-lv4)}
-.term-detail-facts dt{font-weight:700}
-.term-detail-facts dd{margin:0}
+.tier-diseases li:active{background:#e5edf2}
+.tier-diseases li:focus-visible{outline:3px solid #f2a900;outline-offset:2px}
+.disease-modal[hidden]{display:none}
+.disease-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:flex-end;justify-content:center;padding:16px;background:rgba(10,24,38,.58)}
+.disease-dialog{width:min(100%,620px);max-height:88vh;overflow:auto;background:#fff;border-radius:18px 18px 12px 12px;box-shadow:0 16px 48px rgba(0,0,0,.3)}
+.disease-dialog-head{position:sticky;top:0;display:flex;align-items:flex-start;gap:12px;padding:18px 16px 12px;background:#fff;border-bottom:1px solid #dfe7eb}
+.disease-dialog-head h3{flex:1;margin:0;color:#12324a;font-size:21px;line-height:1.45}
+.disease-close{flex:none;width:38px;height:38px;border:0;border-radius:50%;background:#e9eef2;color:#243746;font-size:25px;line-height:1;cursor:pointer}
+.disease-detail{margin:0;padding:14px 16px 20px}
+.disease-detail dt{margin-top:12px;color:#375266;font-size:13px;font-weight:700}
+.disease-detail dt:first-child{margin-top:0}
+.disease-detail dd{margin:3px 0 0;color:#182934;font-size:16px;line-height:1.7;overflow-wrap:anywhere}
+.importance{display:inline-block;padding:3px 10px;border-radius:999px;font-weight:700}
+.importance.最重要{color:#9b1c1c;background:#fee2e2}.importance.重要{color:#8a4b08;background:#fff1c7}.importance.低優先{color:#40566a;background:#e9eef2}
+@media(min-width:700px){.disease-modal{align-items:center}.disease-dialog{border-radius:18px}}
 @supports not (background:color-mix(in srgb,#000 10%,#fff)){
   .tier-diseases li{background:#f2f5f9;border-color:var(--line)}
 }
@@ -273,7 +240,7 @@ button,a,summary{font:inherit}
 <span class="tier-count">7疾患</span>
 </summary>
 <div class="tier-body">
-<div class="info-block"><span class="info-label">【対応】</span><p>原則入院。必要な場合は交通制限（建物の立入制限・停留など）も行われる、最も厳格な対応。</p></div>
+<div class="info-block"><span class="info-label">【対応】</span><p>必要に応じて入院勧告・措置、消毒などを行い、交通制限等の措置も可能な最も厳格な類型。</p></div>
 <div class="info-block memory"><span class="info-label">【覚え方】</span><p>7疾患中5つは病名に「熱」がつく。例外は「痘そう」と「ペスト」の2つだけ。</p></div>
 <section class="tier-group"><ul class="tier-diseases">
 <li>エボラ出血熱</li>
@@ -292,7 +259,7 @@ button,a,summary{font:inherit}
 <span class="tier-count">7疾患</span>
 </summary>
 <div class="tier-body">
-<div class="info-block"><span class="info-label">【対応】</span><p>入院の勧告と就業制限が中心。一類ほどの交通制限はない。</p></div>
+<div class="info-block"><span class="info-label">【対応】</span><p>必要に応じて入院勧告・措置、就業制限、消毒などを行う。一類のような交通制限等は行わない。</p></div>
 <div class="info-block memory"><span class="info-label">【覚え方】</span><p>ポリオ以外は全て呼吸器の重症感染症。「呼吸器グループ＋例外1つ」で覚える。</p></div>
 <section class="tier-group"><ul class="tier-diseases">
 <li>急性灰白髄炎（ポリオ）</li>
@@ -311,7 +278,7 @@ button,a,summary{font:inherit}
 <span class="tier-count">5疾患</span>
 </summary>
 <div class="tier-body">
-<div class="info-block"><span class="info-label">【対応】</span><p>入院措置は原則なし。飲食物を扱う仕事（飲食業・食品製造業など）の就業制限のみ。</p></div>
+<div class="info-block"><span class="info-label">【対応】</span><p>特定の業務への就業制限や消毒などを行う。飲食物を直接扱う業務との関係が重要。</p></div>
 <div class="info-block memory"><span class="info-label">【覚え方】</span><p>全て消化器系（お腹）の感染症。「腸チフス・パラチフス」は名前が似ていてもどちらも三類なのでセットで覚えてよい。</p></div>
 <section class="tier-group"><ul class="tier-diseases">
 <li>コレラ</li>
@@ -328,7 +295,7 @@ button,a,summary{font:inherit}
 <span class="tier-count">43疾患</span>
 </summary>
 <div class="tier-body">
-<div class="info-block"><span class="info-label">【対応】</span><p>人から人へは基本的に感染しない。就業制限などの対人規制はなく、動物の輸入禁止・消毒など対物の措置が中心。</p></div>
+<div class="info-block"><span class="info-label">【対応】</span><p>動物・飲食物などを介して人へ感染する疾病を含み、動物への措置や消毒などの対物措置が中心。</p></div>
 <div class="info-block memory"><span class="info-label">【覚え方】</span><p>約半数が蚊・ダニなど昆虫媒介。聞き慣れない「〇〇熱」「〇〇脳炎」は四類の可能性が高い。</p></div>
 <section class="tier-group"><p class="tier-group-title">動物由来（人畜共通感染症）</p><ul class="tier-diseases">
 <li>狂犬病</li><li>Q熱</li><li>オウム病</li><li>ブルセラ症</li><li>炭疽</li>
@@ -362,7 +329,7 @@ button,a,summary{font:inherit}
 <span class="tier-count">49疾患</span>
 </summary>
 <div class="tier-body">
-<div class="info-block"><span class="info-label">【対応】</span><p>届出のみ（発生動向調査）。行動制限は基本的にない。</p></div>
+<div class="info-block"><span class="info-label">【対応】</span><p>全数または定点で発生動向を把握し、必要な情報提供や感染拡大防止に役立てる。</p></div>
 <div class="info-block memory"><span class="info-label">【覚え方】</span><p>一類〜四類（約60疾患）をしっかり覚えれば、残りは基本的に五類という消去法が成立する。</p></div>
 <section class="tier-group"><p class="tier-group-title">子どもがよくかかる身近な感染症</p><ul class="tier-diseases">
 <li>インフルエンザ</li><li>水痘</li><li>水痘（入院例）</li><li>流行性耳下腺炎</li>
@@ -404,124 +371,31 @@ button,a,summary{font:inherit}
 </details>
 </section>
 </div>
-<dialog class="term-detail-dialog" id="termDetailDialog" aria-labelledby="termDetailTitle">
-<div class="term-detail-panel">
-<div class="term-detail-head"><h2 class="term-detail-title" id="termDetailTitle"></h2><button class="term-detail-close" type="button" aria-label="閉じる">×</button></div>
-<div id="termDetailContent"></div>
+<div class="disease-modal" id="diseaseModal" hidden>
+  <article class="disease-dialog" role="dialog" aria-modal="true" aria-labelledby="diseaseTitle">
+    <header class="disease-dialog-head"><h3 id="diseaseTitle"></h3><button class="disease-close" type="button" aria-label="閉じる">×</button></header>
+    <dl class="disease-detail" id="diseaseDetail"></dl>
+  </article>
 </div>
-</dialog>
-<script src="glossaryData.js?v=3.0.61"></script>
+<script src="infectionDiseaseData.js"></script>
 <script>
 (()=>{
-  const dialog=document.getElementById('termDetailDialog');
-  const title=document.getElementById('termDetailTitle');
-  const content=document.getElementById('termDetailContent');
-  const terms=globalThis.GLOSSARY_DATA?.terms||[];
-  const explicitNames={
-    '重症急性呼吸器症候群（SARS）':'SARS',
-    '中東呼吸器症候群（MERS）':'MERS'
-  };
-  const studyDetailNames={
-    '新型コロナウイルス感染症':'新型コロナ',
-    'HIV感染症・AIDS':'HIV感染症',
-    '水痘（入院例）':'水痘'
-  };
-  const studyPointDetails={
-    '結核':[['病原体','結核菌'],['感染経路','空気感染'],['届出','直ちに'],['就業制限','感染症法上の就業制限対象になり得る'],['予防','換気・咳エチケット・BCG'],['消毒・対応','器具は通常の理容所消毒基準に従う。環境は換気と清拭を重視']],
-    '腸管出血性大腸菌感染症':[['病原体','腸管出血性大腸菌'],['感染経路','経口'],['届出','直ちに'],['就業制限','飲食物取扱業務などに就業制限。理容師へ一律適用ではない'],['予防','手洗い・食品衛生・加熱'],['消毒・対応','便などで汚染された環境の適切な消毒']],
-    '狂犬病':[['病原体','狂犬病ウイルス'],['感染経路','感染動物の咬傷・唾液'],['届出','直ちに'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','動物との接触回避・曝露後ワクチン'],['消毒・対応','創部洗浄。器具は適正消毒']],
-    'デング熱':[['病原体','デングウイルス'],['感染経路','蚊媒介'],['届出','直ちに'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','蚊に刺されない・蚊の発生源対策'],['消毒・対応','通常の器具消毒。蚊対策を重視']],
-    '日本脳炎':[['病原体','日本脳炎ウイルス'],['感染経路','蚊媒介'],['届出','直ちに'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','ワクチン・蚊対策'],['消毒・対応','通常の器具消毒。蚊対策を重視']],
-    'レジオネラ症':[['病原体','レジオネラ属菌'],['感染経路','汚染水のエアロゾル吸入'],['届出','直ちに'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','水系設備の衛生管理'],['消毒・対応','水回りの洗浄・消毒']],
-    'A型肝炎':[['病原体','A型肝炎ウイルス'],['感染経路','経口'],['届出','直ちに'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','手洗い・食品衛生・ワクチン'],['消毒・対応','便汚染を想定した環境消毒']],
-    'E型肝炎':[['病原体','E型肝炎ウイルス'],['感染経路','経口・加熱不十分な肉'],['届出','直ちに'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','肉類の十分な加熱・手洗い'],['消毒・対応','便汚染を想定した環境消毒']],
-    'インフルエンザ':[['病原体','インフルエンザウイルス'],['感染経路','飛沫・接触'],['届出','指定定点が報告'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','ワクチン・手洗い・換気・マスク'],['消毒・対応','手指衛生、接触面の清拭、器具の適正消毒']],
-    '新型コロナ':[['病原体','SARS-CoV-2'],['感染経路','飛沫・エアロゾル・接触'],['届出','指定定点が報告'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','換気・手洗い・場面に応じたマスク'],['消毒・対応','手指衛生、接触面の清拭、器具の適正消毒']],
-    '麻しん':[['病原体','麻しんウイルス'],['感染経路','空気・飛沫・接触'],['届出','直ちに'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','MRワクチン'],['消毒・対応','標準的な器具消毒に加え、空気感染対策を重視']],
-    '風しん':[['病原体','風しんウイルス'],['感染経路','飛沫'],['届出','直ちに'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','MRワクチン'],['消毒・対応','手指衛生・接触面清拭・器具消毒']],
-    '水痘':[['病原体','水痘・帯状疱疹ウイルス'],['感染経路','空気・飛沫・接触'],['届出','定点／入院例は全数'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','ワクチン'],['消毒・対応','空気感染対策、手指衛生、器具消毒']],
-    '百日咳':[['病原体','百日咳菌'],['感染経路','飛沫'],['届出','7日以内'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','ワクチン・咳エチケット'],['消毒・対応','手指衛生・接触面清拭・器具消毒']],
-    '破傷風':[['病原体','破傷風菌'],['感染経路','創傷感染'],['届出','7日以内'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','ワクチン・創傷処置'],['消毒・対応','血液付着器具は血液汚染対応の消毒']],
-    '梅毒':[['病原体','梅毒トレポネーマ'],['感染経路','性的接触・母子感染'],['届出','7日以内'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','コンドーム・早期検査治療'],['消毒・対応','血液・体液を標準予防策で扱う']],
-    'HIV感染症':[['病原体','ヒト免疫不全ウイルス'],['感染経路','血液・性的接触・母子感染'],['届出','7日以内'],['就業制限','感染症法による理容師一律の就業制限なし'],['予防','血液曝露防止・安全な性行動'],['消毒・対応','血液付着器具は血液汚染対応の消毒']]
-  };
-  const normalize=value=>value.replace(/（[^）]*）/g,'').replace(/[・･\s]/g,'');
-  const findTerm=name=>{
-    const target=explicitNames[name]||name;
-    return terms.find(term=>[term.name,...(term.aliases||[])].some(candidate=>candidate===target||normalize(candidate)===normalize(target)));
-  };
-  const addSection=(heading,values)=>{
-    const items=(Array.isArray(values)?values:[values]).filter(Boolean);
-    if(!items.length)return;
-    const section=document.createElement('section');
-    section.className='term-detail-section';
-    const h=document.createElement('h3');
-    h.textContent=heading;
-    section.appendChild(h);
-    if(items.length===1){
-      const p=document.createElement('p');
-      p.textContent=items[0];
-      section.appendChild(p);
-    }else{
-      const ul=document.createElement('ul');
-      items.forEach(value=>{const li=document.createElement('li');li.textContent=value;ul.appendChild(li)});
-      section.appendChild(ul);
-    }
-    content.appendChild(section);
-  };
-  const addFacts=(heading,items)=>{
-    const section=document.createElement('section');
-    section.className='term-detail-section';
-    const h=document.createElement('h3');
-    h.textContent=heading;
-    const dl=document.createElement('dl');
-    dl.className='term-detail-facts';
-    items.forEach(([label,value])=>{
-      const dt=document.createElement('dt');
-      const dd=document.createElement('dd');
-      dt.textContent=label;
-      dd.textContent=value;
-      dl.append(dt,dd);
-    });
-    section.append(h,dl);
-    content.appendChild(section);
-  };
-  const withoutDuplicates=(values,primaryTexts)=>{
-    const seen=[];
-    return (values||[]).filter(value=>{
-      const compact=normalize(value).replace(/[。、，,.・]/g,'');
-      if(!compact)return false;
-      const duplicate=primaryTexts.some(text=>normalize(text).replace(/[。、，,.・]/g,'')===compact)
-        ||seen.some(text=>text===compact);
-      if(!duplicate)seen.push(compact);
-      return !duplicate;
-    });
-  };
-  const openDetail=(term,displayName)=>{
-    title.textContent=term.name;
-    content.replaceChildren();
-    const detailKey=studyDetailNames[displayName]||studyDetailNames[term.name]||term.name;
-    const facts=studyPointDetails[detailKey];
-    const primaryTexts=facts?facts.map(([,value])=>value):[term.definition];
-    if(facts)addFacts('対策要点',facts);
-    else addSection('定義',term.definition);
-    addSection('試験の要点',withoutDuplicates(term.exam,primaryTexts));
-    addSection('混同注意',withoutDuplicates(term.mixup,primaryTexts));
-    dialog.showModal();
-  };
-  document.querySelectorAll('.tier-diseases li').forEach(item=>{
-    const term=findTerm(item.textContent.trim());
-    if(!term)return;
-    const button=document.createElement('button');
-    button.type='button';
-    button.className='term-detail-button';
-    button.textContent=item.textContent.trim();
-    button.setAttribute('aria-label',`${button.textContent}の詳細を開く`);
-    button.addEventListener('click',()=>openDetail(term,button.textContent));
-    item.replaceChildren(button);
-  });
-  dialog.querySelector('.term-detail-close').addEventListener('click',()=>dialog.close());
-  dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
+  const modal=document.getElementById('diseaseModal'),title=document.getElementById('diseaseTitle'),detail=document.getElementById('diseaseDetail');
+  const byName=new Map((globalThis.INFECTION_DISEASE_DATA?.diseases||[]).map(item=>[item.name,item]));
+  const escapeHtml=value=>String(value||'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  let lastFocus=null;
+  function close(){modal.hidden=true;document.body.style.overflow='';lastFocus?.focus()}
+  function open(item,trigger){lastFocus=trigger;title.textContent=item.alias?`${item.name}（${item.alias}）`:item.name;detail.innerHTML=`
+    <dt>感染症法上の分類</dt><dd>${escapeHtml(item.classification)}</dd>
+    <dt>主な感染経路</dt><dd>${escapeHtml(item.route)}</dd>
+    <dt>代表的・特徴的な症状</dt><dd>${escapeHtml(item.symptoms)}</dd>
+    <dt>国家試験の要点</dt><dd>${escapeHtml(item.exam)}</dd>
+    ${item.mixup?`<dt>混同注意</dt><dd>${escapeHtml(item.mixup)}</dd>`:''}
+    <dt>重要度</dt><dd><span class="importance ${escapeHtml(item.importance)}">${escapeHtml(item.importance)}</span></dd>`;
+    modal.hidden=false;document.body.style.overflow='hidden';modal.querySelector('.disease-close').focus();
+  }
+  document.querySelectorAll('.tier-diseases li').forEach(li=>{const item=byName.get(li.textContent.trim());if(!item)return;li.tabIndex=0;li.setAttribute('role','button');li.setAttribute('aria-label',`${item.name}の詳細を開く`);li.addEventListener('click',()=>open(item,li));li.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(item,li)}})});
+  modal.querySelector('.disease-close').addEventListener('click',close);modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
 })();
 </script>
 </body>

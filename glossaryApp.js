@@ -2,7 +2,6 @@
 'use strict';
 const data=globalThis.GLOSSARY_DATA,quizData=globalThis.GLOSSARY_QUIZ_DATA,app=document.getElementById('app');
 if(!data||!quizData||!app)return;
-const flashcardTerms=data.terms.filter(term=>!(term.category==='感染症法'&&Number(term.id)>=1&&Number(term.id)<=114));
 // Version 3.0.35: トップの用語名検索を用語カード枠の外側へ移設。
 {
 const q=quizData.questions;
@@ -95,6 +94,7 @@ data.version='3.0.61';
 quizData.version='3.0.61';
 }
 const APP_VERSION='3.0.61',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',REVIEW_DATE='2026-07-17';
+const flashcardTerms=data.terms.filter(term=>!(term.sourceItems||[]).some(item=>String(item.file||'').includes('感染症法関連_感染症_114用語')));
 const states={safe:'安心',caution:'注意',danger:'無理'};
 let learning=loadLearning(),saveTimer=0,screen='home',listTerms=[],session=[],sessionIndex=0,revealed=false,hintVisible=false,flashStage=0,assessedCurrent=false,sessionStats=null,todayQuizMode=false,isTodaySession=false,statusSessionMode=false,todayAnswers=new Map(),sessionId='',evaluatedIds=new Set(),flashcardMode=false,flashSwipeLocked=false,flashSuppressClickUntil=0;
 function esc(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
@@ -189,7 +189,7 @@ const renderSessionBeforeIndependent=renderSession;
 renderSession=function(){if(!flashcardMode){renderSessionBeforeIndependent();return}app.innerHTML=`<section class="study-card flash-study-card"></section>`;renderFlashcardPage();syncFloatingNav()}
 function advanceFlashCard(index){if(!flashcardMode||flashSwipeLocked||!flashSlots[index])return;flashSwipeLocked=true;const other=flashSlots[index===0?1:0];flashSlots[index]=drawFlashSlot(other?[other.term.id]:[]);renderSession();setTimeout(()=>{flashSwipeLocked=false},180)}
 function selectFlashCategory(category){if(!data.categories.includes(category))return;initializeFlashDeck(category);renderSession();scrollTo(0,0)}
-function searchTermNames(value){const host=document.getElementById('termSearchResults');if(!host)return;const query=String(value||'').trim().toLocaleLowerCase('ja');if(!query){host.innerHTML='';return}const matches=flashcardTerms.filter(term=>term.name.toLocaleLowerCase('ja').includes(query)||(term.reading||'').includes(query)).slice(0,30);host.innerHTML=matches.length?matches.map(term=>`<button type="button" onclick="Glossary.openSearchedTerm(${term.id})"><span>${esc(term.name)}</span><small>${esc(term.reading||term.category)}</small></button>`).join(''):'<p>該当する用語はありません。</p>'}
+function searchTermNames(value){const host=document.getElementById('termSearchResults');if(!host)return;const query=String(value||'').trim().toLocaleLowerCase('ja');if(!query){host.innerHTML='';return}const matches=data.terms.filter(term=>term.name.toLocaleLowerCase('ja').includes(query)||(term.reading||'').includes(query)).slice(0,30);host.innerHTML=matches.length?matches.map(term=>`<button type="button" onclick="Glossary.openSearchedTerm(${term.id})"><span>${esc(term.name)}</span><small>${esc(term.reading||term.category)}</small></button>`).join(''):'<p>該当する用語はありません。</p>'}
 function openSearchedTerm(id){startFlashcards(Number(id))}
 function exportBackup(){flushLearning();const payload={format:'riyoshi-glossary-backup',version:1,appVersion:APP_VERSION,exportedAt:new Date().toISOString(),storageKey:STORAGE_KEY,learning};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=`riyoshi-glossary-backup-${today()}.json`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 async function importBackup(file){if(!file)return;try{const payload=JSON.parse(await file.text());if(!payload||payload.format!=='riyoshi-glossary-backup'||payload.version!==1||!payload.learning||typeof payload.learning!=='object'||Array.isArray(payload.learning))throw new Error('形式が一致しません');if(!confirm('現在の学習履歴を、選択したバックアップ内容で置き換えます。よろしいですか？'))return;learning=payload.learning;flushLearning();normalizedKeys.clear();renderHome();alert('バックアップを読み込みました。')}catch(error){alert(`バックアップを読み込めませんでした。${error?.message?' '+error.message:''}`)}}
