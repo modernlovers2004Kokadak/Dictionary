@@ -40,7 +40,7 @@ body{font-size:var(--font-lv4);}
 .term-front h2,
 .flash-front h2,
 .memory-card-front h2,
-.whiteboard h2{font-size:var(--font-lv3);}
+.whiteboard h2{font-size:var(--font-lv3);white-space:pre-line;}
 .term-label,
 .summary-label,
 .status-box,
@@ -71,4 +71,3 @@ body{font-size:var(--font-lv4);}
 .flash-learning-actions button,
 .whiteboard-navigation button,
 .status-message{font-size:var(--font-lv4);}
-
