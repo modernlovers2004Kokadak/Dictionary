@@ -90,10 +90,10 @@ for(const term of data.terms){
 }
 set(123,'BCGワクチンの主な予防対象はどれか。','結核',['麻しん','風しん','破傷風']);
 set(580,'パーマ第1剤の作用として正しいものはどれか。','毛髪内のシスチン結合を還元して切断する。',['切断したシスチン結合を酸化して再結合させる。','毛髪表面を被膜で覆って水分蒸発を抑える。','酸化染料を発色させて毛髪内部を染色する。']);
-data.version='3.0.67';
-quizData.version='3.0.67';
+data.version='3.0.68';
+quizData.version='3.0.68';
 }
-const APP_VERSION='3.0.67',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',REVIEW_DATE='2026-07-17';
+const APP_VERSION='3.0.68',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',REVIEW_DATE='2026-07-17';
 const flashcardTerms=data.terms.filter(term=>!(term.sourceItems||[]).some(item=>String(item.file||'').includes('感染症法関連_感染症_114用語')));
 const states={safe:'安心',caution:'注意',danger:'無理'};
 let learning=loadLearning(),saveTimer=0,screen='home',listTerms=[],session=[],sessionIndex=0,revealed=false,hintVisible=false,flashStage=0,assessedCurrent=false,sessionStats=null,todayQuizMode=false,isTodaySession=false,statusSessionMode=false,todayAnswers=new Map(),sessionId='',evaluatedIds=new Set(),flashcardMode=false,flashSwipeLocked=false,flashSuppressClickUntil=0;
