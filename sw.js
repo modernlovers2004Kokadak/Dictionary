@@ -1,6 +1,6 @@
 const CACHE_PREFIX='riyoshi-glossary-';
-const CACHE=CACHE_PREFIX+'v3.0.91-20260723-today-category-round';
-const ASSETS=['./','./index.html','./infection-classification-guide.html','./infectionDiseaseData.js?v=3.0.91','./taisaku-youten.html','./style.css?v=3.0.91','./manifest.webmanifest','./glossaryData.js?v=3.0.91','./glossaryQuizData.js?v=3.0.91','./glossaryApp.js?v=3.0.91','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./favicon-32.png'];
+const CACHE=CACHE_PREFIX+'v3.0.92-20260723-overall-progress';
+const ASSETS=['./','./index.html','./infection-classification-guide.html','./infectionDiseaseData.js?v=3.0.92','./taisaku-youten.html','./style.css?v=3.0.92','./manifest.webmanifest','./glossaryData.js?v=3.0.92','./glossaryQuizData.js?v=3.0.92','./glossaryApp.js?v=3.0.92','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./favicon-32.png'];
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
     const cache=await caches.open(CACHE);
