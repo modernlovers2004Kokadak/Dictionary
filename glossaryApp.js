@@ -1,10 +1,9 @@
 (()=>{
 'use strict';
-const data=globalThis.GLOSSARY_DATA,quizData=globalThis.GLOSSARY_QUIZ_DATA,app=document.getElementById('app');
+const data=globalThis.GLOSSARY_DATA,quizData=globalThis.GLOSSARY_QUIZ_DATA,app=document.getElementById('app'),q=quizData?.questions;
 if(!data||!quizData||!app)return;
 // Version 3.0.35: トップの用語名検索を用語カード枠の外側へ移設。
 {
-const q=quizData.questions;
 const publicHealthCategories=new Set(['公衆衛生','地域保健法','健康増進法','消費者基本法']);
 const publicHealthQuestions=new Map(data.terms.filter(term=>publicHealthCategories.has(term.category)&&q[term.id]).map(term=>[Number(term.id),JSON.parse(JSON.stringify(q[term.id]))]));
 const set=(id,question,correct,distractors)=>{if(q[id])Object.assign(q[id],{question,correct,distractors})};
