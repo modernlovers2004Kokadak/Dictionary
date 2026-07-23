@@ -1,7 +1,7 @@
 :root{--navy:#10233f;--bg:#f4f8fd;--line:#dfe8f2;--text:#10233f;--muted:#62718a;--blue:#2277df;--green:#24b77a;--orange:#ff8a22;--red:#f35775;--card:#fff;--violet:#7a55d8}
 *{box-sizing:border-box;font-weight:400}body{margin:0;background:#f4f8fd;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;font-weight:400}a{text-decoration:none;color:inherit;font-weight:400}h1,h2,h3,h4{font-weight:400}
 .app-version{margin-top:12px;text-align:center;font-size:14px;line-height:1.4;color:#8a96a8}
-.unable-button{width:100%;margin-top:12px;border:1px solid #b8c5d8;border-radius:14px;background:#fff;color:#34455e;padding:13px 16px;font-size:16px;line-height:1.4}.unable-button:disabled{opacity:.65}.performance-details{margin-top:14px;border:1px solid #dbe4ef;border-radius:12px;background:#f8fbff}.performance-details summary{padding:12px 14px;cursor:pointer}.performance-details>div{border-top:1px solid #dbe4ef;padding:12px 14px;line-height:1.8}.performance-notice{color:#9a5a00}.glossary-reset{display:flex;justify-content:center;margin:28px 0 96px}.glossary-reset button{border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#43536b;padding:11px 20px;font-size:14px}
+.unable-button{width:100%;margin-top:12px;border:1px solid #b8c5d8;border-radius:14px;background:#fff;color:#34455e;padding:13px 16px;font-size:16px;line-height:1.4}.unable-button:disabled{opacity:.65}.performance-details{margin-top:14px;border:1px solid #dbe4ef;border-radius:12px;background:#f8fbff}.performance-details summary{padding:12px 14px;color:var(--muted);font-size:14px;cursor:pointer}.performance-details>div{border-top:1px solid #dbe4ef;padding:12px 14px;line-height:1.8}.performance-notice{color:#9a5a00}.glossary-reset{display:flex;justify-content:center;margin:28px 0 96px}.glossary-reset button{border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#43536b;padding:11px 20px;font-size:14px}
 .category-stats{margin:20px 0 18px;padding:14px 14px 6px;background:var(--card);border:1px solid var(--line);border-radius:14px}
 .category-stats-title{margin:0 0 10px;font-size:14px;color:var(--muted);font-weight:400}
 .category-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:7px;width:100%;border-top:1px solid var(--line);padding:0 2px;color:var(--text)}
@@ -47,6 +47,7 @@ body{font-size:var(--font-lv4);}
 .study-count,
 .term-category,
 .source-details summary,
+.performance-details summary,
 .source-content,
 .review-pill,
 .next-review,
@@ -72,14 +73,15 @@ body{font-size:var(--font-lv4);}
 .whiteboard-navigation button,
 .status-message{font-size:var(--font-lv4);}
 
-.certainty-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.certainty-actions .unable-button{width:100%;margin-top:0}
-.guess-button{width:100%;border:1px solid #d6b423;border-radius:14px;background:#fffbea;color:#665200;padding:10px 16px;font:inherit;font-size:16px;line-height:1.4}
-.guess-button.selected{background:#fff0a8;box-shadow:0 0 0 2px #d6b423}
-.guess-button:disabled,.unable-button:disabled{opacity:.65}
-.certainty-actions button{display:flex;align-items:center;justify-content:center;gap:7px}
-.certainty-icon{display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:#ffc400;color:#fff;font-size:18px;font-weight:700;line-height:1}
-.unable-button .certainty-icon{background:#ed3434}
+.certainty-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.certainty-actions button{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;border:1px solid #b8c5d8;border-radius:14px;background:#fff;color:#34455e;padding:10px 8px;font:inherit;font-size:16px;line-height:1.4}
+.certainty-actions button.selected{box-shadow:0 0 0 2px #073d86}
+.certainty-icon{display:grid;place-items:center;width:27px;height:27px;border-radius:50%;color:#fff;font-size:18px;font-weight:700;line-height:1}
+.certainty-actions .safe .certainty-icon{background:#35ba39}
+.certainty-actions .caution .certainty-icon{background:#ffc400}
+.certainty-actions .danger .certainty-icon{background:#ed3434}
+.quiz-progress-card{position:relative}
+.quiz-round-count{position:absolute;top:14px;right:16px;color:#647084;font-size:14px;line-height:1.3}
 .today-study-card{position:relative}
 .today-question-number{position:absolute;z-index:2;top:12px;right:14px;display:block;padding:0;color:#8a96a8;font-size:14px;line-height:1.3}
 .status-list-count{margin:0 0 10px;text-align:right;color:#647084;font-size:14px}
