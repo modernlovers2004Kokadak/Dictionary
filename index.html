@@ -357,6 +357,43 @@
   line-height: 1.6;
 }
 </style>
+
+<style>
+/* Typography is centrally controlled by style.css variables. */
+body{font-size:var(--font-lv4)}
+.g-nav .g-title,.g-nav span{font-size:var(--font-lv1)}
+.view-head h1,.today-session-head h1{font-size:var(--font-lv2)}
+.term-front h2,.flash-front h2,.memory-card-front h2,.whiteboard h2,
+.quiz-home-results h2,.home-feature-copy strong,.home-top-links .home-feature-copy strong,
+.home-bookmark-card strong{font-size:var(--font-lv3)}
+.next-button,.term-card .next-button,.session-navigation button,.quiz h3,
+.flash-learning-actions.flash-learning-single button,.home-term-search input,
+.whiteboard-fields .term-value,.whiteboard-category,.whiteboard-fields .term-label,
+.status-message{font-size:var(--font-lv4)}
+.summary-label,.summary-sub,.status-box,.study-count,.term-category,.term-label,
+.source-details summary,.source-content,.review-pill,.next-review,.assessment button,
+.assessment-inline button,.due-label,.term-reading,.recall-guide,.recall-guide>span,
+.recall-guide>strong,.flash-hint,.flash-hint span,.flash-learning-actions button,
+.flash-count-bottom,.home-feature-copy small,.home-bookmark-card small,
+.quiz-home-results button strong,.quiz-home-results button em,.today-header-count,
+.flash-compact-nav span,.memory-scroll-guide,.memory-card-front .term-category,
+.memory-card-reading,.whiteboard-reading,.whiteboard-navigation button,
+.whiteboard-navigation span,.whiteboard-position,.home-term-search label,
+.term-search-results button small,.term-search-results p,.backup-panel button,
+.whiteboard-scroll-position,.whiteboard-category-nav button{font-size:var(--font-lv5)}
+@media(max-width:620px){
+  .home-feature-copy strong,.home-top-links .home-feature-copy strong{font-size:var(--font-lv3)}
+}
+@media(max-width:440px){
+  .g-nav .g-title,.g-nav span{font-size:var(--font-lv1)}
+  .view-head h1,.today-session-head h1{font-size:var(--font-lv2)}
+  .term-front h2,.flash-front h2,.memory-card-front h2,.whiteboard h2,
+  .home-feature-copy strong,.home-top-links .home-feature-copy strong,
+  .home-bookmark-card strong,.quiz-home-results h2{font-size:var(--font-lv3)}
+  .whiteboard-fields .term-value,.whiteboard-category,.whiteboard-fields .term-label{font-size:var(--font-lv4)}
+}
+</style>
+
 </head>
 <body>
 <nav class="g-nav"><button id="glossaryBack" class="header-nav-button" type="button" onclick="Glossary.back()" aria-label="戻る" hidden>‹</button><span class="g-title">理容師国家試験 用語集</span><button id="glossaryHome" class="header-nav-button" type="button" onclick="Glossary.home()" aria-label="ホームへ戻る" hidden>⌂</button></nav>
