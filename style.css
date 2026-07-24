@@ -24,10 +24,10 @@
 /* v3.0.61 typography system
    Lv1 22px / Lv2 20px / Lv3 18px / Lv4 16px / Lv5 14px */
 :root{
-  --font-lv1:26px;
-  --font-lv2:24px;
-  --font-lv3:22px;
-  --font-lv4:20px;
+  --font-lv1:22px;
+  --font-lv2:20px;
+  --font-lv3:18px;
+  --font-lv4:16px;
   --font-lv5:14px;
 }
 body{font-size:var(--font-lv4);}
