@@ -523,7 +523,7 @@ button,a,summary{font:inherit}
     <dl class="disease-detail" id="diseaseDetail"></dl>
   </article>
 </div>
-<script src="infectionDiseaseData.js?v=3.0.101"></script>
+<script src="infectionDiseaseData.js?v=3.0.102"></script>
 <script>
 (()=>{
   const modal=document.getElementById('diseaseModal'),dialog=modal.querySelector('.disease-dialog'),title=document.getElementById('diseaseTitle'),detail=document.getElementById('diseaseDetail');
@@ -553,8 +553,8 @@ button,a,summary{font:inherit}
   dialog.addEventListener('touchend',e=>{if(!swipeTracking||swipeLocked)return;swipeTracking=false;const touch=e.changedTouches[0];if(!touch||!swipeStartedAtTop)return;const dx=touch.clientX-swipeStartX,dy=touch.clientY-swipeStartY;if(dy<90||dy<=Math.abs(dx)*1.25)return;swipeLocked=true;close();setTimeout(()=>{swipeLocked=false},400)},{passive:true});
 })();
 </script>
-<script src="glossaryData.js?v=3.0.101"></script>
-<script src="glossaryQuizData.js?v=3.0.101"></script>
-<script src="dictionaryPage.js?v=3.0.101"></script>
+<script src="glossaryData.js?v=3.0.102"></script>
+<script src="glossaryQuizData.js?v=3.0.102"></script>
+<script src="dictionaryPage.js?v=3.0.102"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 const CACHE_PREFIX='riyoshi-glossary-';
-const CACHE=CACHE_PREFIX+'v3.0.101-20260725-dictionary-links';
-const ASSETS=['./','./index.html','./infection-classification-guide.html','./infectionDiseaseData.js?v=3.0.101','./taisaku-youten.html','./dictionaryPage.js?v=3.0.101','./style.css?v=3.0.101','./manifest.webmanifest','./glossaryData.js?v=3.0.101','./glossaryQuizData.js?v=3.0.101','./glossaryApp.js?v=3.0.101','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./favicon-32.png'];
+const CACHE=CACHE_PREFIX+'v3.0.102-20260725-dictionary-flick';
+const ASSETS=['./','./index.html','./infection-classification-guide.html','./infectionDiseaseData.js?v=3.0.102','./taisaku-youten.html','./dictionaryPage.js?v=3.0.102','./style.css?v=3.0.102','./manifest.webmanifest','./glossaryData.js?v=3.0.102','./glossaryQuizData.js?v=3.0.102','./glossaryApp.js?v=3.0.102','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./favicon-32.png'];
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
     const cache=await caches.open(CACHE);

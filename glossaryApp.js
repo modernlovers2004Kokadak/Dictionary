@@ -254,10 +254,10 @@ for(const item of Object.values(q)){
  item.correct=String(item.correct||'').replace(/[。．]+$/u,'');
  item.distractors=(item.distractors||[]).slice(0,2).map(value=>String(value||'').replace(/[。．]+$/u,''));
 }
-data.version='3.0.101';
-quizData.version='3.0.101';
+data.version='3.0.102';
+quizData.version='3.0.102';
 }
-const APP_VERSION='3.0.101',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',ROUND_META_KEY='__roundProgress',CATEGORY_ROUND_KEY='__categoryRounds',REVIEW_DATE='2026-07-17';
+const APP_VERSION='3.0.102',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',ROUND_META_KEY='__roundProgress',CATEGORY_ROUND_KEY='__categoryRounds',REVIEW_DATE='2026-07-17';
 const flashcardTerms=data.terms.filter(term=>!(term.sourceItems||[]).some(item=>String(item.file||'').includes('感染症法関連_感染症_114用語')));
 const termById=new Map(data.terms.map(term=>[term.id,term]));
 const dictionaryTerms=data.terms.filter(term=>term.dictionary?.linkTarget??term.exam?.includes('重要度S：優先暗記'));
@@ -296,6 +296,11 @@ function ensureDictionaryModal(){
  modal=document.createElement('div');modal.id='dictionaryModal';modal.className='dictionary-modal';modal.hidden=true;
  modal.innerHTML='<div class="dictionary-backdrop" data-dictionary-close></div><section class="dictionary-sheet" role="dialog" aria-modal="true" aria-labelledby="dictionaryTitle"><button type="button" class="dictionary-close" data-dictionary-close aria-label="閉じる">×</button><div class="dictionary-sheet-scroll" id="dictionaryContent"></div></section>';
  modal.addEventListener('click',event=>{if(event.target.closest('[data-dictionary-close]'))closeDictionary()});
+ const sheet=modal.querySelector('.dictionary-sheet'),scroll=modal.querySelector('.dictionary-sheet-scroll');
+ let startX=0,startY=0,startedAtTop=false,tracking=false,locked=false;
+ sheet.addEventListener('touchstart',event=>{if(event.touches.length!==1||locked)return;const touch=event.touches[0];startX=touch.clientX;startY=touch.clientY;startedAtTop=scroll.scrollTop<=1;tracking=true},{passive:true});
+ sheet.addEventListener('touchcancel',()=>{tracking=false},{passive:true});
+ sheet.addEventListener('touchend',event=>{if(!tracking||locked)return;tracking=false;const touch=event.changedTouches[0];if(!touch||!startedAtTop)return;const dx=touch.clientX-startX,dy=touch.clientY-startY;if(dy<90||dy<=Math.abs(dx)*1.25)return;locked=true;closeDictionary();setTimeout(()=>{locked=false},400)},{passive:true});
  document.body.appendChild(modal);return modal;
 }
 function openDictionary(id,event){
