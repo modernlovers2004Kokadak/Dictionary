@@ -255,12 +255,67 @@ for(const item of Object.values(q)){
  item.correct=String(item.correct||'').replace(/[。．]+$/u,'');
  item.distractors=(item.distractors||[]).slice(0,2).map(value=>String(value||'').replace(/[。．]+$/u,''));
 }
-data.version='3.0.99';
-quizData.version='3.0.99';
+data.version='3.0.100';
+quizData.version='3.0.100';
 }
-const APP_VERSION='3.0.99',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',ROUND_META_KEY='__roundProgress',CATEGORY_ROUND_KEY='__categoryRounds',REVIEW_DATE='2026-07-17';
+const APP_VERSION='3.0.100',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',ROUND_META_KEY='__roundProgress',CATEGORY_ROUND_KEY='__categoryRounds',REVIEW_DATE='2026-07-17';
 const flashcardTerms=data.terms.filter(term=>!(term.sourceItems||[]).some(item=>String(item.file||'').includes('感染症法関連_感染症_114用語')));
 const termById=new Map(data.terms.map(term=>[term.id,term]));
+const dictionaryTerms=data.terms.filter(term=>term.dictionary?.linkTarget??term.exam?.includes('重要度S：優先暗記'));
+for(const term of data.terms)term.dictionary={...(term.dictionary||{}),linkTarget:dictionaryTerms.includes(term),cardId:term.id,quizIds:q?.[term.id]?[term.id]:[]};
+const dictionaryMatches=dictionaryTerms.flatMap(term=>[term.name,...(term.aliases||[])].filter(Boolean).map(text=>({text,term}))).sort((a,b)=>b.text.length-a.text.length);
+let dictionaryReturn=null;
+function dictionaryText(value){
+ const text=String(value||''),used=new Set(),hits=[];
+ for(let cursor=0;cursor<text.length;){
+  let best=null;
+  for(const match of dictionaryMatches){
+   if(used.has(match.term.id))continue;
+   const index=text.indexOf(match.text,cursor);
+   if(index<0)continue;
+   if(!best||index<best.index||(index===best.index&&match.text.length>best.match.text.length))best={index,match};
+  }
+  if(!best)break;
+  hits.push(best);used.add(best.match.term.id);cursor=best.index+best.match.text.length;
+ }
+ if(!hits.length)return esc(text);
+ let cursor=0,html='';
+ for(const hit of hits){
+  html+=esc(text.slice(cursor,hit.index));
+  html+=`<button type="button" class="dictionary-link" onclick="Glossary.openDictionary(${hit.match.term.id},event)">${esc(hit.match.text)}</button>`;
+  cursor=hit.index+hit.match.text.length;
+ }
+ return html+esc(text.slice(cursor));
+}
+function dictionaryReferences(values,term){
+ const seen=new Set();
+ return values.map(value=>typeof value==='number'?termById.get(value):data.terms.find(item=>item.name===String(value).split('：')[0]||item.aliases?.includes(String(value)))).filter(item=>item&&item.id!==term.id&&!seen.has(item.id)&&seen.add(item.id));
+}
+function ensureDictionaryModal(){
+ let modal=document.getElementById('dictionaryModal');
+ if(modal)return modal;
+ modal=document.createElement('div');modal.id='dictionaryModal';modal.className='dictionary-modal';modal.hidden=true;
+ modal.innerHTML='<div class="dictionary-backdrop" data-dictionary-close></div><section class="dictionary-sheet" role="dialog" aria-modal="true" aria-labelledby="dictionaryTitle"><button type="button" class="dictionary-close" data-dictionary-close aria-label="閉じる">×</button><div class="dictionary-sheet-scroll" id="dictionaryContent"></div></section>';
+ modal.addEventListener('click',event=>{if(event.target.closest('[data-dictionary-close]'))closeDictionary()});
+ document.body.appendChild(modal);return modal;
+}
+function openDictionary(id,event){
+ event?.preventDefault();event?.stopPropagation();
+ const term=termById.get(Number(id));if(!term)return;
+ const modal=ensureDictionaryModal(),related=dictionaryReferences(term.relatedIds||term.relatedTerms||term.related||[],term),mixups=dictionaryReferences(term.mixupTerms||term.mixup||[],term),hasQuiz=Boolean(q?.[term.id]);
+ document.getElementById('dictionaryContent').innerHTML=`<div class="dictionary-category">${esc(term.category)}</div><h2 id="dictionaryTitle">${esc(term.name)}</h2>${term.reading?`<div class="dictionary-reading">${esc(term.reading)}</div>`:''}${term.definition?`<section><h3>定義</h3><div>${esc(term.definition)}</div></section>`:''}${term.exam?.length?`<section><h3>試験の要点</h3><ul>${term.exam.map(value=>`<li>${esc(value)}</li>`).join('')}</ul></section>`:''}${related.length?`<section><h3>関連語</h3><div class="dictionary-related">${related.map(item=>`<button type="button" onclick="Glossary.openDictionary(${item.id},event)">${esc(item.name)}</button>`).join('')}</div></section>`:''}${mixups.length?`<section><h3>混同語</h3><div class="dictionary-related">${mixups.map(item=>`<button type="button" onclick="Glossary.openDictionary(${item.id},event)">${esc(item.name)}</button>`).join('')}</div></section>`:''}<div class="dictionary-actions"><button type="button" onclick="Glossary.dictionaryToCard(${term.id})">用語カードで確認</button>${hasQuiz?`<button type="button" onclick="Glossary.dictionaryToQuiz(${term.id})">3択で確認</button>`:''}</div>`;
+ modal.hidden=false;document.body.classList.add('dictionary-open');
+}
+function closeDictionary(){const modal=document.getElementById('dictionaryModal');if(modal)modal.hidden=true;document.body.classList.remove('dictionary-open')}
+function saveDictionaryReturn(){dictionaryReturn={html:app.innerHTML,screen,scrollY:window.scrollY,flashcardMode,reverseMode};closeDictionary()}
+function dictionaryToCard(id){saveDictionaryReturn();startFlashcards(Number(id))}
+function dictionaryToQuiz(id){const term=termById.get(Number(id));if(!term||!q?.[term.id])return;saveDictionaryReturn();reverseMode=false;startSession([term],'3択で確認',true,'','dictionaryCheck')}
+function restoreDictionaryReturn(){
+ if(!dictionaryReturn)return false;
+ const saved=dictionaryReturn;dictionaryReturn=null;screen=saved.screen;flashcardMode=saved.flashcardMode;reverseMode=saved.reverseMode;app.innerHTML=saved.html;syncFloatingNav();
+ if(flashcardMode&&document.querySelector('.learning-card'))bindLearningCardFlick();
+ requestAnimationFrame(()=>scrollTo(0,saved.scrollY));return true;
+}
 const states={safe:'安心',caution:'勘',danger:'無理'};
 const VIEW_STATE_KEY='riyoshi_glossary_view_v1';
 let learning=loadLearning(),saveTimer=0,screen='home',listTerms=[],session=[],sessionIndex=0,revealed=false,hintVisible=false,flashStage=0,assessedCurrent=false,sessionStats=null,todayQuizMode=false,isTodaySession=false,statusSessionMode=false,sessionModeKey='',todayAnswers=new Map(),sessionId='',evaluatedIds=new Set(),flashcardMode=false,reverseMode=false,reverseRevealed=false,flashSwipeLocked=false,flashSuppressClickUntil=0;
@@ -326,12 +381,12 @@ function renderHome(){screen='home';const bookmarkCount=data.terms.reduce((count
 
 function renderBookmark(){screen='bookmark';listTerms=data.terms.filter(term=>isBookmarked(term));app.innerHTML=`<section class="view-head"><span></span><h1>ブックマーク</h1><span></span></section>${statusSummary(listTerms)}<div id="list-container">${listCards(listTerms)}</div>`;syncFloatingNav()}
 function listCards(terms,showNumber=false){return terms.length?terms.map(term=>{const s=termState(term);return `<details class="term-card" id="term-${term.id}"><summary><span class="arrow">▶</span><span>${esc(term.name)}</span><span class="term-category">${showNumber?`問題 ${term.id}　`:''}${esc(term.category)}</span></summary><div class="term-back">${termFields(term)}${sourceBlock(term)}<div class="assessment-inline">${assessmentButtons(term,s?.status,'inline')}</div></div></details>`}).join(''):'<div class="empty">対象の用語はありません。</div>'}
-function textField(label,value,extra=''){return value?`<div class="term-field ${extra}"><div class="term-label">${esc(label)}</div><div class="term-value">${esc(value)}</div></div>`:''}
-function listField(label,values,extra=''){return values?.length?`<div class="term-field ${extra}"><div class="term-label">${esc(label)}</div><div class="term-value"><ul>${values.map(value=>`<li>${esc(value)}</li>`).join('')}</ul></div></div>`:''}
-function termFields(term){return `${textField('定義',term.definition)}${term.aliases?.length?textField('別名・関連表記',term.aliases.join('／')):''}${Object.entries(term.special||{}).map(([label,value])=>textField(label,value)).join('')}${listField('試験の要点',term.exam,'exam-points')}${listField('混同注意',term.mixup)}`}
+function textField(label,value,extra='',linkable=false){return value?`<div class="term-field ${extra}"><div class="term-label">${esc(label)}</div><div class="term-value">${linkable?dictionaryText(value):esc(value)}</div></div>`:''}
+function listField(label,values,extra='',linkable=false){return values?.length?`<div class="term-field ${extra}"><div class="term-label">${esc(label)}</div><div class="term-value"><ul>${values.map(value=>`<li>${linkable?dictionaryText(value):esc(value)}</li>`).join('')}</ul></div></div>`:''}
+function termFields(term){return `${textField('定義',term.definition,'',true)}${term.aliases?.length?textField('別名・関連表記',term.aliases.join('／')):''}${Object.entries(term.special||{}).map(([label,value])=>textField(label,value)).join('')}${listField('試験の要点',term.exam,'exam-points',true)}${listField('混同注意',term.mixup,'',true)}`}
 function infectionDiseaseFor(term){if(term.category!=='感染症法')return null;const diseases=globalThis.INFECTION_DISEASE_DATA?.diseases||[];return diseases.find(item=>item.name===term.name||item.name.startsWith(`${term.name}（`))||diseases.find(item=>item.alias&&(item.alias===term.name||term.aliases?.includes(item.alias)))||null}
 function quizTermFields(term){const disease=infectionDiseaseFor(term);if(!disease)return termFields(term);return `${textField('正式名称',disease.name)}${textField('別名・通称',disease.alias||'なし')}${textField('感染症法上の分類',disease.classification)}${textField('主な感染経路',disease.route)}${textField('代表的・特徴的な症状',disease.symptoms)}`}
-function flashcardFields(term){return `${textField('定義',term.definition)}${listField('試験の要点',term.exam,'exam-points')}${listField('混同注意',term.mixup)}`}
+function flashcardFields(term){return `${textField('定義',term.definition,'',true)}${listField('試験の要点',term.exam,'exam-points',true)}${listField('混同注意',term.mixup,'',true)}`}
 function sourceBlock(term){const links=(term.sources||[]).map(source=>source.url?`<a href="${esc(source.url)}" target="_blank" rel="noopener">${esc(source.label)}</a>`:esc(source.label)).join('<br>');return `<details class="source-details" open><summary>出典・監修状態</summary><div class="source-content">${esc(term.sourceText)}${links?`<br>${links}`:''}<br><span class="review-pill">${esc(term.status)}</span>　基準日：${REVIEW_DATE}</div></details>`}
 
 function stateSymbol(key){return key==='safe'?'🟢':key==='caution'?'🟡':'🔴'}
@@ -420,37 +475,10 @@ function relatedTerms(term){
  const values=term.relatedIds||term.relatedTerms||term.related||[];
  return values.map(value=>typeof value==='number'?termById.get(value):data.terms.find(item=>item.name===value)).filter(Boolean);
 }
-function reverseHintLines(term){
- const exposed=[term.name,...(term.aliases||[])].map(value=>String(value||'').trim()).filter(Boolean);
- const clean=value=>{
-  let text=String(value||'').trim().replace(/[。．]+$/u,'');
-  for(const name of exposed)text=text.split(name).join('この用語');
-  return text
-   .replace(/^この用語[は：:\s]*/u,'')
-   .replace(/この用語の目的・対象・条件を確認する/gu,'')
-   .replace(/制度上の役割と関連用語を区別/gu,'')
-   .replace(/重要度[A-ZＳ]?[：:\s]*優先暗記/gu,'')
-   .replace(/[。．]+$/u,'')
-   .trim();
- };
- const generic=/^(この用語|関連用語|特徴|働き|目的|対象|条件|分類|種類|制度上の役割)$/u;
- const source=Array.isArray(term.reverseHints)&&term.reverseHints.length?term.reverseHints:term.exam||[];
- const lines=[];
- for(const value of source){
-  const text=clean(value);
-  if(!text||text===term.category||generic.test(text)||lines.includes(text))continue;
-  lines.push(text);
- }
- if(lines.length<2){
-  const definition=clean(term.definition);
-  if(definition&&!lines.includes(definition))lines.push(definition);
- }
- return lines.slice(0,4);
-}
 function renderLearningCard(){
  const term=currentTerm(),marked=isBookmarked(term),related=relatedTerms(term),reverse=reverseMode;
- const details=`<section class="learning-details"><section><h2 class="definition">定義</h2><div>${term.definition||term.meaning||''}</div></section>${term.exam?.length?`<section><h2 class="point">試験の要点</h2><div>${term.exam.map(esc).join('<br>')}</div></section>`:''}${term.mixup?.length?`<section><h2 class="mixup">混同注意</h2><div>${term.mixup.map(esc).join('<br>')}</div></section>`:''}</section>`;
- app.innerHTML=`<article class="learning-card${reverse?' is-reverse':''}"><header><span>${esc(term.category)}</span><em>問題 ${term.id}</em></header><div class="learning-card-scroll">${reverse?`<section class="learning-hero reverse-question">${reverseHintLines(term).map(esc).join('<br>')||'特徴を確認してください'}</section><section class="reverse-answer${reverseRevealed?' is-visible':''}"><h1>${esc(term.name)}</h1>${details}</section>`:`<section class="learning-hero"><h1>${esc(term.name)}</h1></section>${details}`}<nav class="learning-actions">${reverse?`<button onclick="Glossary.reverseUnderstood()"><span>✓</span>理解した</button><button onclick="Glossary.toggleBookmark(${term.id})"><span>${marked?'★':'☆'}</span>ブックマーク</button><button onclick="Glossary.flashNext()"><span>→</span>次へ</button>`:`<button onclick="Glossary.showRelated()"><span>⇄</span>関連語</button><button onclick="Glossary.toggleBookmark(${term.id})"><span>${marked?'★':'☆'}</span>ブックマーク</button><button onclick="Glossary.checkThreeChoice()" ${q[term.id]?'':'disabled'}><span>☰</span>3択で確認</button>`}</nav>${!reverse&&related.length?`<div class="related-list" hidden>${related.map(item=>`<button onclick="Glossary.openRelated(${item.id})">${esc(item.name)}</button>`).join('')}</div>`:''}</div></article>`;
+ const details=`<section class="learning-details"><section><h2 class="definition">定義</h2><div>${dictionaryText(term.definition||term.meaning||'')}</div></section>${term.exam?.length?`<section><h2 class="point">試験の要点</h2><div>${term.exam.map(dictionaryText).join('<br>')}</div></section>`:''}${term.mixup?.length?`<section><h2 class="mixup">混同注意</h2><div>${term.mixup.map(dictionaryText).join('<br>')}</div></section>`:''}</section>`;
+ app.innerHTML=`<article class="learning-card${reverse?' is-reverse':''}"><header><span>${esc(term.category)}</span><em>問題 ${term.id}</em></header><div class="learning-card-scroll">${reverse?`<section class="learning-hero reverse-question">${(term.exam||[]).map(esc).join('<br>')||'試験の要点を確認してください'}</section><section class="reverse-answer${reverseRevealed?' is-visible':''}"><h1>${esc(term.name)}</h1>${details}</section>`:`<section class="learning-hero"><h1>${esc(term.name)}</h1></section>${details}`}<nav class="learning-actions">${reverse?`<button onclick="Glossary.reverseUnderstood()"><span>✓</span>理解した</button><button onclick="Glossary.toggleBookmark(${term.id})"><span>${marked?'★':'☆'}</span>ブックマーク</button><button onclick="Glossary.flashNext()"><span>→</span>次へ</button>`:`<button onclick="Glossary.showRelated()"><span>⇄</span>関連語</button><button onclick="Glossary.toggleBookmark(${term.id})"><span>${marked?'★':'☆'}</span>ブックマーク</button><button onclick="Glossary.checkThreeChoice()" ${q[term.id]?'':'disabled'}><span>☰</span>3択で確認</button>`}</nav>${!reverse&&related.length?`<div class="related-list" hidden>${related.map(item=>`<button onclick="Glossary.openRelated(${item.id})">${esc(item.name)}</button>`).join('')}</div>`:''}</div></article>`;
  syncFloatingNav();
  bindLearningCardFlick();
 }
@@ -505,6 +533,6 @@ function reverseUnderstood(){const term=currentTerm(),key=stateKey(term),old=ter
 const flashNextOriginal=flashNext;
 flashNext=function(){if(reverseMode)reverseRevealed=false;flashNextOriginal()}
 document.addEventListener('click',event=>{const link=event.target.closest('a[href]');if(!link)return;const saved={reason:'linked-page',screen,scrollY:window.scrollY};if(screen==='status-list'){const existing=JSON.parse(sessionStorage.getItem(VIEW_STATE_KEY)||'null');saved.status=existing?.status||Object.keys(states).find(status=>listTerms.some(term=>statusBucket(term)===status))}saveViewState(saved)},true);
-globalThis.Glossary={home:renderHome,startFlashcards,startReverse,showRelated,openRelated,checkThreeChoice,reverseUnderstood,toggleFlashcard,flashAdvance,flashNext,flashPrevious,advanceFlashCard,selectFlashCategory,searchTermNames,openSearchedTerm,exportBackup,importBackup,toggleBookmark,assessFlash,showFlashHint,showFlashAnswer,openBookmark:renderBookmark,back(){if(screen!=='home')exitCurrent()},startMode,startStatus,startQuizResult,chooseToday,markGuess,markUnable,overrideToday,setTodayAssessment,assess,nextTerm,previousTerm,resetLearning,nextTodaySet,exitSession:exitCurrent,startCategoryWeak};
+globalThis.Glossary={home:renderHome,startFlashcards,startReverse,showRelated,openRelated,checkThreeChoice,reverseUnderstood,toggleFlashcard,flashAdvance,flashNext,flashPrevious,advanceFlashCard,selectFlashCategory,searchTermNames,openSearchedTerm,exportBackup,importBackup,toggleBookmark,assessFlash,showFlashHint,showFlashAnswer,openBookmark:renderBookmark,openDictionary,dictionaryToCard,dictionaryToQuiz,back(){if(restoreDictionaryReturn())return;if(screen!=='home')exitCurrent()},startMode,startStatus,startQuizResult,chooseToday,markGuess,markUnable,overrideToday,setTodayAssessment,assess,nextTerm,previousTerm,resetLearning,nextTodaySet,exitSession:exitCurrent,startCategoryWeak};
 if(!restoreSavedView())renderHome();
 })();
