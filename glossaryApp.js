@@ -255,10 +255,10 @@ for(const item of Object.values(q)){
  item.correct=String(item.correct||'').replace(/[。．]+$/u,'');
  item.distractors=(item.distractors||[]).slice(0,2).map(value=>String(value||'').replace(/[。．]+$/u,''));
 }
-data.version='3.0.97';
-quizData.version='3.0.97';
+data.version='3.0.98';
+quizData.version='3.0.98';
 }
-const APP_VERSION='3.0.97',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',ROUND_META_KEY='__roundProgress',CATEGORY_ROUND_KEY='__categoryRounds',REVIEW_DATE='2026-07-17';
+const APP_VERSION='3.0.98',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',ROUND_META_KEY='__roundProgress',CATEGORY_ROUND_KEY='__categoryRounds',REVIEW_DATE='2026-07-17';
 const flashcardTerms=data.terms.filter(term=>!(term.sourceItems||[]).some(item=>String(item.file||'').includes('感染症法関連_感染症_114用語')));
 const termById=new Map(data.terms.map(term=>[term.id,term]));
 const states={safe:'安心',caution:'勘',danger:'無理'};
@@ -423,8 +423,39 @@ function relatedTerms(term){
 function renderLearningCard(){
  const term=currentTerm(),marked=isBookmarked(term),related=relatedTerms(term),reverse=reverseMode;
  const details=`<section class="learning-details"><section><h2 class="definition">定義</h2><div>${term.definition||term.meaning||''}</div></section>${term.exam?.length?`<section><h2 class="point">試験の要点</h2><div>${term.exam.map(esc).join('<br>')}</div></section>`:''}${term.mixup?.length?`<section><h2 class="mixup">混同注意</h2><div>${term.mixup.map(esc).join('<br>')}</div></section>`:''}</section>`;
- app.innerHTML=`<article class="learning-card${reverse?' is-reverse':''}"><header><span>試験の要点</span><em>問題 ${term.id}</em></header><div class="learning-card-scroll">${reverse?`<section class="learning-hero reverse-question">${(term.exam||[]).map(esc).join('<br>')||'試験の要点を確認してください'}</section><section class="reverse-answer${reverseRevealed?' is-visible':''}"><h1>${esc(term.name)}</h1>${details}</section>`:`<section class="learning-hero"><h1>${esc(term.name)}</h1></section>${details}`}<nav class="learning-actions">${reverse?`<button onclick="Glossary.reverseUnderstood()"><span>✓</span>理解した</button><button onclick="Glossary.toggleBookmark(${term.id})"><span>${marked?'★':'☆'}</span>ブックマーク</button><button onclick="Glossary.flashNext()"><span>→</span>次へ</button>`:`<button onclick="Glossary.showRelated()"><span>⇄</span>関連語</button><button onclick="Glossary.toggleBookmark(${term.id})"><span>${marked?'★':'☆'}</span>ブックマーク</button><button onclick="Glossary.checkThreeChoice()" ${q[term.id]?'':'disabled'}><span>☰</span>3択で確認</button>`}</nav>${!reverse&&related.length?`<div class="related-list" hidden>${related.map(item=>`<button onclick="Glossary.openRelated(${item.id})">${esc(item.name)}</button>`).join('')}</div>`:''}</div></article>`;
+ app.innerHTML=`<article class="learning-card${reverse?' is-reverse':''}"><header><span>${esc(term.category)}</span><em>問題 ${term.id}</em></header><div class="learning-card-scroll">${reverse?`<section class="learning-hero reverse-question">${(term.exam||[]).map(esc).join('<br>')||'試験の要点を確認してください'}</section><section class="reverse-answer${reverseRevealed?' is-visible':''}"><h1>${esc(term.name)}</h1>${details}</section>`:`<section class="learning-hero"><h1>${esc(term.name)}</h1></section>${details}`}<nav class="learning-actions">${reverse?`<button onclick="Glossary.reverseUnderstood()"><span>✓</span>理解した</button><button onclick="Glossary.toggleBookmark(${term.id})"><span>${marked?'★':'☆'}</span>ブックマーク</button><button onclick="Glossary.flashNext()"><span>→</span>次へ</button>`:`<button onclick="Glossary.showRelated()"><span>⇄</span>関連語</button><button onclick="Glossary.toggleBookmark(${term.id})"><span>${marked?'★':'☆'}</span>ブックマーク</button><button onclick="Glossary.checkThreeChoice()" ${q[term.id]?'':'disabled'}><span>☰</span>3択で確認</button>`}</nav>${!reverse&&related.length?`<div class="related-list" hidden>${related.map(item=>`<button onclick="Glossary.openRelated(${item.id})">${esc(item.name)}</button>`).join('')}</div>`:''}</div></article>`;
  syncFloatingNav();
+ bindLearningCardFlick();
+}
+function advanceLearningRandom(){
+ if(session.length<2)return;
+ const current=sessionIndex;
+ do{sessionIndex=Math.floor(Math.random()*session.length)}while(sessionIndex===current);
+ reverseRevealed=false;
+ prepareTerm();
+ renderLearningCard();
+ scrollTo(0,0);
+}
+function bindLearningCardFlick(){
+ const card=document.querySelector('.learning-card');
+ if(!card)return;
+ let startX=0,startY=0,tracking=false;
+ card.addEventListener('touchstart',event=>{
+  if(event.touches.length!==1)return;
+  const touch=event.touches[0];
+  startX=touch.clientX;startY=touch.clientY;tracking=true;
+ },{passive:true});
+ card.addEventListener('touchcancel',()=>{tracking=false},{passive:true});
+ card.addEventListener('touchend',event=>{
+  if(!tracking)return;
+  tracking=false;
+  const touch=event.changedTouches[0];
+  if(!touch)return;
+  const dx=touch.clientX-startX,dy=touch.clientY-startY;
+  if(Math.abs(dx)<55||Math.abs(dx)<=Math.abs(dy)*1.25)return;
+  event.preventDefault();
+  advanceLearningRandom();
+ },{passive:false});
 }
 function startLearningMode(isReverse){
  screen='session';flashcardMode=true;reverseMode=isReverse;reverseRevealed=false;
