@@ -412,8 +412,42 @@ function flashHint(term,index){if(index===0)return safeFlashHint(term,term.exam?
 function flashAdvance(){if(!flashcardMode)return;if(flashStage===0){flashStage=1;renderSession()}else if(flashStage===1){flashStage=3;renderSession()}else flashNext()}
 function showFlashHint(){flashAdvance()}
 function showFlashAnswer(){if(!flashcardMode)return;flashStage=3;renderSession()}
-function flashNext(){if(!flashcardMode||flashSwipeLocked)return;flashSwipeLocked=true;if(sessionIndex<session.length-1){sessionIndex++}else{const last=currentTerm()?.id;const nextDeck=shuffle([...data.terms]);if(nextDeck.length>1&&nextDeck[0].id===last)[nextDeck[0],nextDeck[1]]=[nextDeck[1],nextDeck[0]];session.push(...nextDeck);sessionIndex++}prepareTerm();renderSession();scrollTo(0,0);setTimeout(()=>{flashSwipeLocked=false},180)}
-function flashPrevious(){if(!flashcardMode||flashSwipeLocked||sessionIndex<=0)return;flashSwipeLocked=true;sessionIndex--;prepareTerm();renderSession();scrollTo(0,0);setTimeout(()=>{flashSwipeLocked=false},180)}
+function flashNext(){
+  if(!flashcardMode||flashSwipeLocked)return;
+  flashSwipeLocked=true;
+  if(sessionHistoryIndex<sessionHistory.length-1){
+    sessionHistoryIndex++;
+    sessionIndex=sessionHistory[sessionHistoryIndex];
+  }else if(sessionIndex<session.length-1){
+    sessionIndex++;
+    pushSessionHistory();
+  }else{
+    const last=currentTerm()?.id;
+    const nextDeck=shuffle([...data.terms]);
+    if(nextDeck.length>1&&nextDeck[0].id===last)[nextDeck[0],nextDeck[1]]=[nextDeck[1],nextDeck[0]];
+    session.push(...nextDeck);
+    sessionIndex++;
+    pushSessionHistory();
+  }
+  prepareTerm();
+  if(reverseMode)reverseRevealed=false;
+  renderSession();
+  scrollTo(0,0);
+  setTimeout(()=>{flashSwipeLocked=false},180)
+}
+function flashPrevious(){
+  if(!flashcardMode||flashSwipeLocked)return;
+  if(sessionHistoryIndex>0){
+    flashSwipeLocked=true;
+    sessionHistoryIndex--;
+    sessionIndex=sessionHistory[sessionHistoryIndex];
+    prepareTerm();
+    if(reverseMode)reverseRevealed=false;
+    renderSession();
+    scrollTo(0,0);
+    setTimeout(()=>{flashSwipeLocked=false},180);
+  }
+}
 function bindFlashGestures(){const card=document.querySelector('.flash-card');if(!card)return;let startX=0,startY=0,tracking=false;card.addEventListener('touchstart',event=>{if(event.touches.length!==1||flashSwipeLocked)return;const touch=event.touches[0];startX=touch.clientX;startY=touch.clientY;tracking=true},{passive:true});card.addEventListener('touchcancel',()=>{tracking=false},{passive:true});card.addEventListener('touchend',event=>{if(!tracking||flashSwipeLocked)return;tracking=false;const touch=event.changedTouches[0];if(!touch)return;const dx=touch.clientX-startX,dy=touch.clientY-startY,ax=Math.abs(dx),ay=Math.abs(dy);if(ax<55||ax<=ay*1.25)return;event.preventDefault();flashSuppressClickUntil=Date.now()+500;if(dx<0)flashNext();else flashPrevious()},{passive:false})}
 function isBookmarked(term){return Boolean(termState(term)?.bookmarked)}
 function toggleBookmark(id){const term=termById.get(id);if(!term)return;const key=stateKey(term),old=termState(term)||{};learning[key]={...old,bookmarked:!old.bookmarked};saveLearning();if(screen==='session')renderSession();else if(screen==='bookmark')renderBookmark();else renderHome()}
@@ -494,14 +528,11 @@ function renderLearningCard(){
  syncFloatingNav();
  bindLearningCardFlick();
 }
-function advanceLearningRandom(){
- if(session.length<2)return;
- const current=sessionIndex;
- do{sessionIndex=Math.floor(Math.random()*session.length)}while(sessionIndex===current);
- reverseRevealed=false;
- prepareTerm();
- renderLearningCard();
- scrollTo(0,0);
+let sessionHistory=[],sessionHistoryIndex=0;
+function pushSessionHistory(){
+ sessionHistory.splice(sessionHistoryIndex+1);
+ sessionHistory.push(sessionIndex);
+ sessionHistoryIndex=sessionHistory.length-1;
 }
 function bindLearningCardFlick(){
  const card=document.querySelector('.learning-card');
@@ -521,13 +552,15 @@ function bindLearningCardFlick(){
   const dx=touch.clientX-startX,dy=touch.clientY-startY;
   if(Math.abs(dx)<55||Math.abs(dx)<=Math.abs(dy)*1.25)return;
   event.preventDefault();
-  advanceLearningRandom();
+  if(dx<0)flashNext();
+  else flashPrevious();
  },{passive:false});
 }
 function startLearningMode(isReverse,preferredId=0){
  screen='session';flashcardMode=true;reverseMode=isReverse;reverseRevealed=false;
  const preferred=flashcardTerms.find(term=>term.id===Number(preferredId))||null;
  session=preferred?[preferred]:shuffle([...flashcardTerms]);sessionIndex=0;
+ sessionHistory=[0];sessionHistoryIndex=0;
  sessionId=`fc-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
  statusSessionMode=false;isTodaySession=false;todayQuizMode=false;
  todayAnswers=new Map();evaluatedIds=new Set();
