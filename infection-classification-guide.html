@@ -362,7 +362,7 @@ button,a,summary{font:inherit}
 </head>
 <body>
 <nav class="g-nav"><button aria-label="戻る" onclick="history.length&gt;1?history.back():location.href='index.html'" type="button">‹</button><span class="g-title">感染症法 一類〜五類 分類ガイド</span><a aria-label="ホームへ戻る" href="index.html">⌂</a></nav>
-<div class="page-wrap">
+<div class="page-wrap" data-dictionary-content>
 <section class="infection-guide">
 <h3 class="guide-section-title guide-emphasis">一類〜五類の覚え方</h3>
 <div class="memory-guide">
@@ -523,7 +523,7 @@ button,a,summary{font:inherit}
     <dl class="disease-detail" id="diseaseDetail"></dl>
   </article>
 </div>
-<script src="infectionDiseaseData.js"></script>
+<script src="infectionDiseaseData.js?v=3.0.101"></script>
 <script>
 (()=>{
   const modal=document.getElementById('diseaseModal'),dialog=modal.querySelector('.disease-dialog'),title=document.getElementById('diseaseTitle'),detail=document.getElementById('diseaseDetail');
@@ -553,5 +553,8 @@ button,a,summary{font:inherit}
   dialog.addEventListener('touchend',e=>{if(!swipeTracking||swipeLocked)return;swipeTracking=false;const touch=e.changedTouches[0];if(!touch||!swipeStartedAtTop)return;const dx=touch.clientX-swipeStartX,dy=touch.clientY-swipeStartY;if(dy<90||dy<=Math.abs(dx)*1.25)return;swipeLocked=true;close();setTimeout(()=>{swipeLocked=false},400)},{passive:true});
 })();
 </script>
+<script src="glossaryData.js?v=3.0.101"></script>
+<script src="glossaryQuizData.js?v=3.0.101"></script>
+<script src="dictionaryPage.js?v=3.0.101"></script>
 </body>
 </html>

@@ -218,10 +218,9 @@ set(211,'別名を2-プロパノールといい、消毒に用いられるアル
 set(213,'塩素系消毒薬の水溶液中で、殺菌作用の中心となる成分はどれか。','次亜塩素酸',['次亜塩素酸イオン','塩化物イオン']);
 set(215,'ヨウ素をアルコールに溶かした消毒薬はどれか。','ヨードチンキ',['ポビドンヨード','次亜塩素酸ナトリウム']);
 set(217,'血液が付着していない器具をグルコン酸クロルヘキシジンで消毒する条件はどれか。','0.05％液に10分間以上浸す',['0.01％液に10分間以上浸す','0.5％液に5分間以上浸す']);
-set(219,'第四級アンモニウム塩系で、逆性石けんに分類される消毒薬はどれか。','塩化ベンゼトニウム',['クレゾール石けん液','グルコン酸クロルヘキシジン']);
-set(222,'フェノール系に分類される消毒薬はどれか。','クレゾール石けん液',['塩化ベンゼトニウム','グルコン酸クロルヘキシジン']);
-set(226,'器具の消毒前に、汚れや有機物を落とすために用いる洗浄剤はどれか。','中性洗剤',['酵素洗浄剤','クレゾール石けん液']);
-set(227,'タンパク質や脂質などの汚れを分解しやすくする洗浄剤はどれか。','酵素洗浄剤',['中性洗剤','クレゾール石けん液']);
+set(219,'第四級アンモニウム塩系で、逆性石けんに分類される消毒薬はどれか。','塩化ベンゼトニウム',['塩化ベンザルコニウム','グルコン酸クロルヘキシジン']);
+set(226,'器具の消毒前に、汚れや有機物を落とすために用いる洗浄剤はどれか。','中性洗剤',['酵素洗浄剤','塩化ベンザルコニウム']);
+set(227,'タンパク質や脂質などの汚れを分解しやすくする洗浄剤はどれか。','酵素洗浄剤',['中性洗剤','塩化ベンザルコニウム']);
 set(233,'水や洗剤を用いて、汚れや有機物を物理的に取り除く操作はどれか。','洗浄',['清掃','消毒']);
 set(235,'煮沸による器具消毒の条件はどれか。','沸騰後2分間以上煮沸する',['80℃を超える湯に10分間以上浸す','沸騰前から1分間以上加熱する']);
 set(237,'熱湯を利用して微生物を減らす方法はどれか。','熱湯消毒',['煮沸消毒','蒸気消毒']);
@@ -255,10 +254,10 @@ for(const item of Object.values(q)){
  item.correct=String(item.correct||'').replace(/[。．]+$/u,'');
  item.distractors=(item.distractors||[]).slice(0,2).map(value=>String(value||'').replace(/[。．]+$/u,''));
 }
-data.version='3.0.100';
-quizData.version='3.0.100';
+data.version='3.0.101';
+quizData.version='3.0.101';
 }
-const APP_VERSION='3.0.100',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',ROUND_META_KEY='__roundProgress',CATEGORY_ROUND_KEY='__categoryRounds',REVIEW_DATE='2026-07-17';
+const APP_VERSION='3.0.101',STORAGE_KEY='riyoshi_glossary_learning_v1',TODAY_META_KEY='__today10',ROUND_META_KEY='__roundProgress',CATEGORY_ROUND_KEY='__categoryRounds',REVIEW_DATE='2026-07-17';
 const flashcardTerms=data.terms.filter(term=>!(term.sourceItems||[]).some(item=>String(item.file||'').includes('感染症法関連_感染症_114用語')));
 const termById=new Map(data.terms.map(term=>[term.id,term]));
 const dictionaryTerms=data.terms.filter(term=>term.dictionary?.linkTarget??term.exam?.includes('重要度S：優先暗記'));
@@ -512,9 +511,10 @@ function bindLearningCardFlick(){
   advanceLearningRandom();
  },{passive:false});
 }
-function startLearningMode(isReverse){
+function startLearningMode(isReverse,preferredId=0){
  screen='session';flashcardMode=true;reverseMode=isReverse;reverseRevealed=false;
- session=shuffle([...flashcardTerms]);sessionIndex=0;
+ const preferred=flashcardTerms.find(term=>term.id===Number(preferredId))||null;
+ session=preferred?[preferred]:shuffle([...flashcardTerms]);sessionIndex=0;
  sessionId=`fc-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
  statusSessionMode=false;isTodaySession=false;todayQuizMode=false;
  todayAnswers=new Map();evaluatedIds=new Set();
@@ -522,7 +522,7 @@ function startLearningMode(isReverse){
  prepareTerm();renderSession();scrollTo(0,0);
 }
 const startFlashcardsOriginal=startFlashcards;
-startFlashcards=function(){startLearningMode(false)}
+startFlashcards=function(preferredId=0){startLearningMode(false,preferredId)}
 const renderSessionLearningBase=renderSession;
 renderSession=function(){if(flashcardMode){renderLearningCard();return}renderSessionLearningBase()}
 function startReverse(){startLearningMode(true)}
@@ -534,5 +534,8 @@ const flashNextOriginal=flashNext;
 flashNext=function(){if(reverseMode)reverseRevealed=false;flashNextOriginal()}
 document.addEventListener('click',event=>{const link=event.target.closest('a[href]');if(!link)return;const saved={reason:'linked-page',screen,scrollY:window.scrollY};if(screen==='status-list'){const existing=JSON.parse(sessionStorage.getItem(VIEW_STATE_KEY)||'null');saved.status=existing?.status||Object.keys(states).find(status=>listTerms.some(term=>statusBucket(term)===status))}saveViewState(saved)},true);
 globalThis.Glossary={home:renderHome,startFlashcards,startReverse,showRelated,openRelated,checkThreeChoice,reverseUnderstood,toggleFlashcard,flashAdvance,flashNext,flashPrevious,advanceFlashCard,selectFlashCategory,searchTermNames,openSearchedTerm,exportBackup,importBackup,toggleBookmark,assessFlash,showFlashHint,showFlashAnswer,openBookmark:renderBookmark,openDictionary,dictionaryToCard,dictionaryToQuiz,back(){if(restoreDictionaryReturn())return;if(screen!=='home')exitCurrent()},startMode,startStatus,startQuizResult,chooseToday,markGuess,markUnable,overrideToday,setTodayAssessment,assess,nextTerm,previousTerm,resetLearning,nextTodaySet,exitSession:exitCurrent,startCategoryWeak};
-if(!restoreSavedView())renderHome();
+const launchParams=new URLSearchParams(location.search),launchCard=Number(launchParams.get('card')),launchQuiz=Number(launchParams.get('quiz'));
+if(launchCard&&termById.has(launchCard))startFlashcards(launchCard);
+else if(launchQuiz&&termById.has(launchQuiz)&&q?.[launchQuiz])startSession([termById.get(launchQuiz)],'3択で確認',true,'','dictionaryCheck');
+else if(!restoreSavedView())renderHome();
 })();
